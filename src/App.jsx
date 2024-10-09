@@ -3,6 +3,7 @@ import { BrowserRouter, Routes , Route } from 'react-router-dom'
 import './App.css'
 import Home from './pages/Home'
 import Auth from './pages/Auth'
+import Feed from './pages/Feed'
 
 function App() {
   
@@ -12,6 +13,7 @@ function App() {
       <Routes>
           <Route path='/' element={<Home/>}>
             <Route path='auth' element={<Auth/>}/>
+            <Route path='feed' element={<Feed/>}/>
             
           
           

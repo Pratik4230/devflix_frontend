@@ -2,7 +2,7 @@ import React from 'react'
 import { Outlet } from 'react-router-dom'
 import Navbar from '../components/Navbar'
 import Sidebar from '../components/Sidebar'
-
+import Mainbody from './Feed'
 const Home = () => {
 
     const a = true
@@ -12,7 +12,9 @@ const Home = () => {
         <Navbar/>
 
         <main className='flex'>
-       {/* <Sidebar/>  */}
+         
+       <Sidebar/> 
+        
         <Outlet/>
         </main>
       
