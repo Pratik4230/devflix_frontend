@@ -1,7 +1,14 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
+import { useMutation } from "@tanstack/react-query";
+import { axiosInstance } from "../utils.js/axiosInstance";
+import toast from "react-hot-toast";
+import { useNavigate } from "react-router-dom";
+import { Loader } from "lucide-react";
+import { useDispatch, useSelector } from "react-redux";
+import { addUser } from "../../store/UserSlice";
 
 // Define the schema with the correct regex
 const LoginSchema = z.object({
@@ -24,14 +31,46 @@ const Login = () => {
     resolver: zodResolver(LoginSchema),
   });
 
+  const navigate = useNavigate();
+  const dispatch = useDispatch();
+
+  const user = useSelector((state) => state.user.user)
+  console.log("user" , user);
+  
+
+  useEffect(() => {
+    if (user!= null) {
+      return navigate('/feed')
+    }
+  },[])
+  
+
+const mutation = useMutation({
+  mutationFn: async (data) => {
+    const response = await axiosInstance.post("/user/login", data)
+    return response.data
+  },
+
+  onSuccess: (data) => {
+    toast.success("Login successfully")
+    dispatch(addUser(data))
+    navigate('/feed')
+  },
+
+  onError: (error) => {
+    toast.error(error?.response?.data?.message)
+    console.error('err' , error);
+  }
+
+})
+
   const onSubmit = (data) => {
-    console.log(data);
-    // Handle login logic here
+    mutation.mutate(data)
   };
 
   return (
-    <div className="flex justify-center items-center h-screen bg-base-200 min-w-screen">
-      <form
+    <div className="flex  justify-center items-center h-screen bg-base-200 min-w-screen">
+      <form 
         onSubmit={handleSubmit(onSubmit)}
         className="bg-base-100 p-6 rounded-lg shadow-lg w-full max-w-sm"
       >
@@ -78,8 +117,8 @@ const Login = () => {
         </div>
 
         {/* Submit Button */}
-        <button type="submit" className="btn btn-primary w-full mt-4">
-          Login
+        <button type="submit" className="btn btn-primary w-full mt-4" disabled={mutation.isPending} >
+       {mutation.isPending ? <Loader className="animate-spin text-white"/>  : "LogIn"}
         </button>
       </form>
     </div>

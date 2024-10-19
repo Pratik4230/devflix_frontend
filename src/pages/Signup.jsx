@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import {z} from 'zod';
 import { useForm } from "react-hook-form"
 import { zodResolver } from '@hookform/resolvers/zod';
@@ -7,6 +7,8 @@ import { axiosInstance } from '../utils.js/axiosInstance';
 import toast , {Toaster} from 'react-hot-toast'
 import { Loader } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
+import { useDispatch, useSelector } from 'react-redux';
+import { addUser } from '../../store/UserSlice';
 
 const SignupSchema = z.object({
   userName: z.string().min(2, "Username must be at least 2 characters").max(20,"Username should be less than 20 characters").toLowerCase().trim(),
@@ -21,7 +23,19 @@ const SignupSchema = z.object({
 
 const Signup = () => {
 
-  const navigate = useNavigate()
+  const navigate = useNavigate();
+  const dispatch = useDispatch();
+
+  const user = useSelector((state) => state.user.user)
+  // console.log("user" , user);
+
+  useEffect(() => {
+    if (user != null) {
+      return navigate('/feed')
+    }
+  }, [])
+ 
+  
 
   const { register, handleSubmit, formState: { errors } } = useForm({
     resolver: zodResolver(SignupSchema),
@@ -38,10 +52,11 @@ const Signup = () => {
       onSuccess: (data) => {
         toast.success('Signup successful!');
         console.log('Submitted Data:', data); 
+        dispatch(addUser(data))
          navigate('/feed')
       },
       onError: (error) => {
-        console.error(error);
+        console.error("err" ,error);
         toast.error(error?.response?.data?.message || 'Signup failed. Please try again.');
         
       }
@@ -117,11 +132,8 @@ const Signup = () => {
 
            
             <div className="form-control mt-6">
-              <button type="submit" className="btn btn-primary disabled={mutation.isLoading}">
-                {mutation.isLoading ? (
-                   <div className="flex items-center gap-2">
-                    <Loader className="animate-spin" size={20} /> Submitting...
-                  </div> ) : ('Sign Up') }  
+              <button type="submit" className="btn btn-primary " disabled={mutation.isPending}>
+                {mutation.isPending ?   <Loader className="animate-spin text-white"  /> : "Signup"}   
               </button>
             </div>
           </form>
