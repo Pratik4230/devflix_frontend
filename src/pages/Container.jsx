@@ -13,7 +13,7 @@ const Container = () => {
     <>
         <Navbar toggleDrawer={toggleDrawer} />
 
-<div className='fixed w-screen'> <Sidebar isDrawerOpen={isDrawerOpen} toggleDrawer={toggleDrawer} /> </div>
+<div className='fixed w-screen z-10'> <Sidebar isDrawerOpen={isDrawerOpen} toggleDrawer={toggleDrawer} /> </div>
         
         <Outlet/>
         

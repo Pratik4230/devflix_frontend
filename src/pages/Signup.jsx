@@ -31,7 +31,7 @@ const Signup = () => {
 
   useEffect(() => {
     if (user != null) {
-      return navigate('/feed')
+      return navigate('/')
     }
   }, [])
  
@@ -53,7 +53,7 @@ const Signup = () => {
         toast.success('Signup successful!');
         console.log('Submitted Data:', data); 
         dispatch(addUser(data))
-         navigate('/feed')
+         navigate('/')
       },
       onError: (error) => {
         console.error("err" ,error);

@@ -10,7 +10,6 @@ import { Loader } from "lucide-react";
 import { useDispatch, useSelector } from "react-redux";
 import { addUser } from "../../store/UserSlice";
 
-// Define the schema with the correct regex
 const LoginSchema = z.object({
   emailId: z
     .string()
@@ -40,7 +39,7 @@ const Login = () => {
 
   useEffect(() => {
     if (user!= null) {
-      return navigate('/feed')
+      return navigate('/')
     }
   },[])
   
@@ -54,7 +53,7 @@ const mutation = useMutation({
   onSuccess: (data) => {
     toast.success("Login successfully")
     dispatch(addUser(data))
-    navigate('/feed')
+    navigate('/')
   },
 
   onError: (error) => {
