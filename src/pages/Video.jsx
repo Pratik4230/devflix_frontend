@@ -1,9 +1,10 @@
 import { useQuery } from '@tanstack/react-query';
 import React from 'react'
 import { useParams } from 'react-router-dom'
-import { axiosInstance } from '../utils.js/axiosInstance';
+import { axiosInstance } from '../utils/axiosInstance';
 import toast from 'react-hot-toast';
 import Shimmer from '../components/Shimmer';
+import CommentSection from '../components/CommentSection';
 
 const Video = () => {
 
@@ -54,6 +55,9 @@ const Video = () => {
         <p className="text-md mt-4">{video.description}</p>
       </article>
     </section>
+
+    <CommentSection videoId={videoId} />
+
   </main>
   )
 }

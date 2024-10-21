@@ -3,7 +3,7 @@ import { useForm } from "react-hook-form";
 import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
-import { axiosInstance } from "../utils.js/axiosInstance";
+import { axiosInstance } from "../utils/axiosInstance";
 import toast from "react-hot-toast";
 import { Navigate, useNavigate } from "react-router-dom";
 import { Loader } from "lucide-react";

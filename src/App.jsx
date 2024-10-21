@@ -9,7 +9,7 @@ import Signup from "./pages/Signup"
 import toast, { Toaster } from 'react-hot-toast'
 import Feed from './pages/Feed'
 import { useQuery } from '@tanstack/react-query'
-import { axiosInstance } from './utils.js/axiosInstance'
+import { axiosInstance } from './utils/axiosInstance'
 import Shimmer from './components/Shimmer'
 import { useDispatch, useSelector } from 'react-redux'
 import { addUser } from '../store/UserSlice'
@@ -28,7 +28,7 @@ function App() {
       try {
         const response = await axiosInstance.get("/user/auth");
         dispatch(addUser(response?.data?.data))
-        console.log("hie" ,response.data.data);
+        // console.log("hie" ,response.data.data);
         
         return response.data;
 
