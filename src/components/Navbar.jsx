@@ -1,11 +1,46 @@
 import React from 'react'
 import { CircleUserRound, Menu, MonitorPlay } from 'lucide-react'
-import { useSelector } from 'react-redux'
+import { useDispatch, useSelector } from 'react-redux'
+import { useMutation, useQueryClient } from '@tanstack/react-query'
+import { axiosInstance } from '../utils.js/axiosInstance'
+import { useNavigate } from 'react-router-dom'
+import toast from 'react-hot-toast'
+import { removeUser } from '../../store/UserSlice'
+
 
 const Navbar = ({ toggleDrawer }) => {
 
-  const user = useSelector((state) => state.user.user)
-  const Avtar = user?.data?.avatarImage?.url;
+  const user = useSelector((state) => state.user.user)  
+  const Avtar = user?.avatarImage?.url;
+
+  const navigate = useNavigate();
+  const dispatch = useDispatch()
+
+  const queryClient = useQueryClient();
+
+  
+      const Logout = useMutation({
+        mutationFn: async () => {
+          return await axiosInstance.post('/user/logout', {});
+        },
+
+        onSuccess: (data) => {
+          toast.success("logout successful")
+          dispatch(removeUser())
+            queryClient.invalidateQueries({ queryKey: ["authUser"] })
+            navigate('/' , {replace: true})
+           },
+           onError: (error) => {
+            toast.error(error?.response?.data?.message)
+            console.error('err' , error);
+          }
+          
+      })
+
+      const handleLogout = () => {
+        Logout.mutate();
+      }
+
 
   return (
     <nav className=" bg-base-100 px-7 flex items-center justify-between">
@@ -23,8 +58,8 @@ const Navbar = ({ toggleDrawer }) => {
         <ul
           tabIndex={0}
           className="menu top-10 bg-white dropdown-content  rounded-box z-[1] mt-4 w-52 p-2 shadow">
-          <li><a>Item 1</a></li>
-          <li><a>Item 2</a></li>
+          <li><a>Profile</a></li>
+          <li onClick={handleLogout}>Logout</li>
         </ul>
       </div> 
     </nav>

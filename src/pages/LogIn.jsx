@@ -2,10 +2,10 @@ import React, { useEffect } from "react";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { useMutation } from "@tanstack/react-query";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { axiosInstance } from "../utils.js/axiosInstance";
 import toast from "react-hot-toast";
-import { useNavigate } from "react-router-dom";
+import { Navigate, useNavigate } from "react-router-dom";
 import { Loader } from "lucide-react";
 import { useDispatch, useSelector } from "react-redux";
 import { addUser } from "../../store/UserSlice";
@@ -31,17 +31,15 @@ const Login = () => {
   });
 
   const navigate = useNavigate();
-  const dispatch = useDispatch();
-
-  const user = useSelector((state) => state.user.user)
-  console.log("user" , user);
+  const queryClient = useQueryClient();
+ 
   
 
-  useEffect(() => {
-    if (user!= null) {
-      return navigate('/')
-    }
-  },[])
+  // useEffect(() => {
+  //   if (user!= null) {
+  //     return navigate('/')
+  //   }
+  // },[])
   
 
 const mutation = useMutation({
@@ -52,8 +50,10 @@ const mutation = useMutation({
 
   onSuccess: (data) => {
     toast.success("Login successfully")
-    dispatch(addUser(data))
-    navigate('/')
+   
+    queryClient.invalidateQueries(['authUser']);
+    navigate('/', { replace: true });
+    
   },
 
   onError: (error) => {

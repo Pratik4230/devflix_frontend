@@ -11,17 +11,27 @@ import Feed from './pages/Feed'
 import { useQuery } from '@tanstack/react-query'
 import { axiosInstance } from './utils.js/axiosInstance'
 import Shimmer from './components/Shimmer'
+import { useDispatch, useSelector } from 'react-redux'
+import { addUser } from '../store/UserSlice'
+import Video from './pages/Video'
 
 
 
 function App() {
+
+   const dispatch = useDispatch();
+
 
   const {data: authUser, isLoading} = useQuery({
     queryKey: ['authUser'],
     queryFn: async () => {
       try {
         const response = await axiosInstance.get("/user/auth");
+        dispatch(addUser(response?.data?.data))
+        console.log("hie" ,response.data.data);
+        
         return response.data;
+
       } catch (error) {
         if (error.response && error.response.status === 401) {
           return null
@@ -37,13 +47,15 @@ function App() {
 
   return (
     <>
+    
+    
       <BrowserRouter basename='/'>
       <Routes>
         <Route path='/' element={<Container/>}>
         <Route path='/' element={authUser ? <Feed/> : <Navigate to={"/login"} /> } />
           <Route path='/login' element={ !authUser ? <Login/> : <Navigate to={'/'} /> }/>
           <Route path='/signup' element={ !authUser ? <Signup/> : <Navigate to={'/'} /> }/>
-          
+          <Route path='/video/:videoId' element= {authUser ? <Video/> : <Navigate to={'/'}/> } />
         </Route>
       </Routes>  
       <Toaster />    
