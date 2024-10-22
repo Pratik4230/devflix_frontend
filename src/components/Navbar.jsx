@@ -3,7 +3,7 @@ import { CircleUserRound, Menu, MonitorPlay } from 'lucide-react'
 import { useDispatch, useSelector } from 'react-redux'
 import { useMutation, useQueryClient } from '@tanstack/react-query'
 import { axiosInstance } from '../utils/axiosInstance'
-import { useNavigate } from 'react-router-dom'
+import { Link, useNavigate } from 'react-router-dom'
 import toast from 'react-hot-toast'
 import { removeUser } from '../../store/UserSlice'
 
@@ -50,16 +50,16 @@ const Navbar = ({ toggleDrawer }) => {
 
       <div className="flex items-center">
              <MonitorPlay />
-        <p className="btn btn-ghost text-xl flex items-center">devflix</p>
+        <Link to={'/'} className="btn btn-ghost text-xl flex items-center">devflix</Link>
       </div>
 
       <div className="flex items-center dropdown dropdown-end">
         {user ? <img src={Avtar} alt="Profile" tabIndex={0} role="button" className='h-9 w-9 rounded-full ' /> : <CircleUserRound size={32} />}
         <ul
           tabIndex={0}
-          className="menu top-10 bg-white dropdown-content  rounded-box z-[1] mt-4 w-52 p-2 shadow">
-          <li><a>Profile</a></li>
-          <li onClick={handleLogout}>Logout</li>
+          className="menu top-10  dropdown-content   z-[1] mt-4 w-52 p-2  shadow    ">
+          <Link to={'/profile'} className=' bg-slate-950 text-lg flex justify-center items-center rounded-xl h-12 border-b-2  text-white'><p>Profile</p></Link>
+          <li onClick={handleLogout} className=' bg-slate-900 text-lg flex justify-center items-center rounded-xl text-white h-12 w-full border-b-2'>Logout</li>
         </ul>
       </div> 
     </nav>
