@@ -87,7 +87,6 @@ const CommentSection = ({ videoId }) => {
  
   return (
      <section className='w-screen mt-5 flex flex-col items-center '> 
-     {console.log(comments) }
       <h2 className='text-2xl text-yellow-50 font-semibold'>Comments</h2>
 
       <div className='mt-3 lg:w-1/2'>

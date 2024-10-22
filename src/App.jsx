@@ -15,6 +15,7 @@ import { useDispatch, useSelector } from 'react-redux'
 import { addUser } from '../store/UserSlice'
 import Video from './pages/Video'
 import Profile from './pages/Profile'
+import Channel from './pages/Channel'
 
 
 
@@ -58,6 +59,7 @@ function App() {
           <Route path='/signup' element={ !authUser ? <Signup/> : <Navigate to={'/'} /> }/>
           <Route path='/video/:videoId' element= {authUser ? <Video/> : <Navigate to={'/'}/> } />
           <Route path='/profile' element= {authUser ? <Profile/> : <Navigate to={'/'}/> } />
+          <Route path='/channel/:channelId' element= {authUser ? <Channel/> : <Navigate to={'/'}/> } />
         </Route>
       </Routes>  
       <Toaster />    

@@ -139,7 +139,7 @@ const Profile = () => {
           <p className="text-gray-400">{profile.userName}</p>
         </div>
         <button
-          className="absolute top-2 left-14 bg-white p-1 rounded-full shadow-lg"
+          className="absolute top-8 left-14 bg-white p-1 rounded-full shadow-lg"
           onClick={() => setIsEditingAvatar(!isEditingAvatar)}
         >
           <Edit3 className="w-4 h-4 text-gray-600" />
