@@ -31,7 +31,7 @@ function App() {
       try {
         const response = await axiosInstance.get("/user/auth");
         dispatch(addUser(response?.data?.data))
-        // console.log("hie" ,response.data.data);
+        
         
         return response.data;
 

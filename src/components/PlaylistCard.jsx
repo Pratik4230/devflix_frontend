@@ -7,7 +7,7 @@ const PlaylistCard = ({playlist}) => {
 
     
   return (
-    <div className='flex flex-col items-center border-2 m-10 bg-violet-400 rounded-xl'>
+    <div className='flex flex-col items-center border-2 p-5 m-5 bg-violet-400 rounded-xl'>
       <section className='p-2 text-black my-2'>
         <p onClick={() => console.log("vids,, " , videos)} className='font-bold text-2xl '>{name}</p>
         <p className='flex  justify-end'>{videos.length} videos</p>

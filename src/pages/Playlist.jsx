@@ -27,8 +27,13 @@ const Playlist = () => {
   
   if (playlistLoading)  return <p>playlist Loading</p>
 
+  if (!playlist || !playlist?.playlistData) {
+    return <p>Playlist videos is not available</p>; 
+  }
+
  const {name, description, createdAt} = playlist?.playlistData;
 
+console.log("pl",playlist);
 
   return (
     <main>

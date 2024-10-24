@@ -19,6 +19,8 @@ const Channel = () => {
   const [showCreatePlaylist, setShowCreatePlaylist] = useState(false);
   const [playlistData, setPlaylistData] = useState({ name: '', description: '' });
 
+  const [selectedPlaylist, setSelectedPlaylist] = useState(null);
+
   const {data: channel, isLoading, isError} = useQuery({
     queryKey: ['channel', channelId],
     queryFn: async () => {
@@ -92,6 +94,35 @@ const Channel = () => {
     toast.error(error?.response?.data?.message || 'Error creating playlist');
   },
 });
+
+const updatePlaylistMutation = useMutation({
+  mutationFn: async (playlistData) => {
+    const response = await axiosInstance.patch(`/playlist/update/${selectedPlaylist._id}`, playlistData);
+    return response.data;
+  },
+  onSuccess: (data) => {
+    queryClient.invalidateQueries(['channelPlaylist', channelId]);
+    toast.success('Playlist updated successfully');
+    setSelectedPlaylist(null);
+  },
+  onError: (error) => {
+    toast.error(error?.response?.data?.message || 'Error updating playlist');
+  },
+});
+
+const deletePlaylistMutation = useMutation({
+  mutationFn: async (playlistId) => {
+    const response = await axiosInstance.delete(`/playlist/delete/${playlistId}`);
+    return response.data;
+  },
+  onSuccess: (data) => {
+    queryClient.invalidateQueries(['channelPlaylist', channelId]);
+    toast.success('Playlist deleted successfully');
+  },
+  onError: (error) => {
+    toast.error(error?.response?.data?.message || 'Error deleting playlist');
+  },
+});
  
  const handleCreatePlaylist = (e) => {
   e.preventDefault();
@@ -99,6 +130,20 @@ const Channel = () => {
     return toast.error('Playlist name is required');
   }
   createPlaylistMutation.mutate({ ...playlistData, owner: channel?._id });
+};
+
+const handleUpdatePlaylist = (e) => {
+  e.preventDefault();
+  if (!playlistData.name) {
+    return toast.error('Playlist name is required');
+  }
+  updatePlaylistMutation.mutate(playlistData);
+};
+
+const handleDeletePlaylist = (playlistId) => {
+  if (window.confirm('Are you sure you want to delete this playlist?')) {
+    deletePlaylistMutation.mutate(playlistId);
+  }
 };
 
 
@@ -168,6 +213,40 @@ const Channel = () => {
           </form>
         </div>
       )}
+
+{selectedPlaylist && tab === 'playlists' && (
+        <div className="p-4">
+          <form onSubmit={handleUpdatePlaylist}>
+            <input
+              type="text"
+              placeholder="Playlist Name"
+              className="block w-full mb-2 p-2 border border-gray-300 rounded-md"
+              value={playlistData.name}
+              onChange={(e) => setPlaylistData({ ...playlistData, name: e.target.value })}
+              required
+            />
+            <textarea
+              placeholder="Playlist Description"
+              className="block w-full mb-2 p-2 border border-gray-300 rounded-md"
+              value={playlistData.description}
+              onChange={(e) => setPlaylistData({ ...playlistData, description: e.target.value })}
+            />
+            <button
+              type="submit"
+              className="px-4 py-2 bg-blue-500 text-white rounded-lg"
+            >
+              {updatePlaylistMutation.isLoading ? 'Updating...' : 'Update Playlist'}
+            </button>
+            <button
+              type="button"
+              onClick={() => setSelectedPlaylist(null)}
+              className="ml-2 px-4 py-2 bg-red-500 text-white rounded-lg"
+            >
+              Cancel
+            </button>
+          </form>
+        </div>
+      )}   
  
   <section className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6 px-4 pt-6 bg-gray-100 ">
     {tab == 'videos' && videosLoading && <Shimmer/> }
@@ -181,9 +260,36 @@ const Channel = () => {
     ))}
 
 
+
+
     {tab == 'playlists' && playlistsLoading && <p>Playlists are Loading</p>}
     {tab == 'playlists' && playlists?.map((playlist) => (
-      <Link key={playlist?._id} to={`/playlist/${playlist?._id}` }> <PlaylistCard  playlist={playlist}  />  </Link>
+      
+      <div key={playlist?._id} className="m-4 border border-gray-300 shadow-lg rounded-lg overflow-hidden flex flex-col bg-white">
+      <Link to={`/playlist/${playlist?._id}`} className="hover:opacity-90 transition-opacity duration-200">
+        <PlaylistCard playlist={playlist} />
+      </Link>
+    
+      <div className="flex gap-3 justify-between items-center p-4 border-t border-gray-200 bg-gray-50">
+        <button
+          onClick={() => {
+            setSelectedPlaylist(playlist);
+            setPlaylistData({ name: playlist.name, description: playlist.description });
+          }}
+          className="px-4 py-2 bg-blue-500 text-white font-semibold rounded-lg shadow-md hover:bg-blue-600 transition-colors duration-300"
+        >
+          Edit
+        </button>
+    
+        <button
+          onClick={() => handleDeletePlaylist(playlist._id)}
+          className="px-4 py-2 bg-red-500 text-white font-semibold rounded-lg shadow-md hover:bg-red-600 transition-colors duration-300"
+        >
+          Delete
+        </button>
+      </div>
+    </div>
+    
     )) }
 
   </section>

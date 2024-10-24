@@ -34,12 +34,6 @@ const Login = () => {
   const queryClient = useQueryClient();
  
   
-
-  // useEffect(() => {
-  //   if (user!= null) {
-  //     return navigate('/')
-  //   }
-  // },[])
   
 
 const mutation = useMutation({
