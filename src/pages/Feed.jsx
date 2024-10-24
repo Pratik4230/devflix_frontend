@@ -19,7 +19,6 @@ const Feed = () => {
     staleTime: 1000*60*10,
     onSuccess: () => {
       toast.success('feed loaded successfully!');
-      console.log("feed",query.data);
       
     },
     onError: (error) => {

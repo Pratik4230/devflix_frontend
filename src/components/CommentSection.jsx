@@ -105,8 +105,14 @@ const CommentSection = ({ videoId }) => {
       </div>
 
       <div className='mt-5 bg-slate-950  text-slate-300 rounded-xl p-2 w-10/12 lg:w-1/2'>
-        {comments?.map((comment) => (
-          <div key={comment.key} className='my-3 border-b-2  p-2 px-4 w-full'>
+      {comments.length === 1 ? ( 
+        <p>No comments Found</p> 
+      ) : ( comments?.map((comment) => (
+          
+          
+          <div key={comment?.key} className='my-3 border-b-2  p-2 px-4 w-full'>
+            {/* {console.log("het" , comment)
+            } */}
             <div className='flex items-center  gap-3 '>
               <img src={comment.avatar} alt={comment.channelName} className='w-10 h-10 rounded-full' />
               <p className="font-semibold">{comment.channelName}</p>
@@ -153,7 +159,8 @@ const CommentSection = ({ videoId }) => {
 ) }
 
           </div>
-        ))}
+        ))
+      )}
 
       </div>
 

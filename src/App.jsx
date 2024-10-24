@@ -16,6 +16,7 @@ import { addUser } from '../store/UserSlice'
 import Video from './pages/Video'
 import Profile from './pages/Profile'
 import Channel from './pages/Channel'
+import Playlist from './pages/Playlist'
 
 
 
@@ -60,6 +61,7 @@ function App() {
           <Route path='/video/:videoId' element= {authUser ? <Video/> : <Navigate to={'/'}/> } />
           <Route path='/profile' element= {authUser ? <Profile/> : <Navigate to={'/'}/> } />
           <Route path='/channel/:channelId' element= {authUser ? <Channel/> : <Navigate to={'/'}/> } />
+          <Route path='/playlist/:playlistId' element= {authUser ? <Playlist/> : <Navigate to={'/'}/> } />
         </Route>
       </Routes>  
       <Toaster />    

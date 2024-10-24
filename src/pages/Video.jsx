@@ -51,8 +51,7 @@ const Video = () => {
 
   return (
     <main className="video-page flex flex-col items-center justify-center py-8 bg-gray-900 px-4">
-      {console.log(video)
-      }
+     
       <section className="w-full xl:w-9/12 rounded-lg overflow-hidden">
         <video controls src={video.video} className="w-full h-auto aspect-video"></video>
       </section>
