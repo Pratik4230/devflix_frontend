@@ -62,6 +62,7 @@ function App() {
           <Route path='/profile' element= {authUser ? <Profile/> : <Navigate to={'/'}/> } />
           <Route path='/channel/:channelId' element= {authUser ? <Channel/> : <Navigate to={'/'}/> } />
           <Route path='/playlist/:playlistId' element= {authUser ? <Playlist/> : <Navigate to={'/'}/> } />
+          <Route path='/playlist/:playlistId/video/:videoId' element= {authUser ? <Video/> : <Navigate to={'/'}/> } />
         </Route>
       </Routes>  
       <Toaster />    

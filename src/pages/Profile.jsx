@@ -116,117 +116,125 @@ const Profile = () => {
   if (isError) return <div>Error loading profile</div>;
 
   return (
-    <main className="p-5 ">
-      <div className="mb-5   ">
-        {profile.coverImage?.url && (
-          <div className="relative mb-5">
-          <img src={profile.coverImage.url} alt="cover" className="w-full h-56 object-cover  rounded-lg" />
-          <button
-            className="absolute top-2 right-2 bg-white p-1 rounded-full shadow-lg"
-            onClick={() => setIsEditingCover(!isEditingCover)}
-          >
-            <Edit3 className="w-5 h-5 text-gray-600" />
-          </button>
-          </div>
-        )}
-      </div>
- 
- <section className='flex justify-evenly '>
-      <div className="flex items-center gap-4 mb-5  relative">
-        <img src={profile.avatarImage?.url} alt="Avatar" className="w-20 h-20 rounded-full object-cover" />
-        <div>
-          <h2 className="text-2xl font-bold">{profile.channelName}</h2>
-          <p className="text-gray-400">{profile.userName}</p>
-        </div>
+    <main className="p-5 bg-gradient-to-b from-blue-50 to-blue-100 min-h-screen">
+  <div className="mb-5">
+    {profile.coverImage?.url && (
+      <div className="relative mb-5">
+        <img
+          src={profile.coverImage.url}
+          alt="cover"
+          className="w-full h-56 md:h-72 lg:h-80 object-cover rounded-lg shadow-lg"
+        />
         <button
-          className="absolute top-8 left-14 bg-white p-1 rounded-full shadow-lg"
-          onClick={() => setIsEditingAvatar(!isEditingAvatar)}
+          className="absolute top-2 right-2 bg-white p-2 rounded-full shadow-lg hover:shadow-xl transition transform hover:scale-105"
+          onClick={() => setIsEditingCover(!isEditingCover)}
         >
-          <Edit3 className="w-4 h-4 text-gray-600" />
+          <Edit3 className="w-5 h-5 text-blue-600" />
         </button>
       </div>
+    )}
+  </div>
 
-      <div className="profile-info mt-5">
-        <p className="text-lg">
-          <span className="font-semibold text-gray-400">Email: {profile.emailId}</span> 
-        </p>
-        <p className="font-thin">
-          <span className="text-base">Account Created: {new Date(profile.createdAt).toLocaleDateString()}</span>
-          
-        </p>
-        <p className="font-extralight">
-          <span className="text-base">Last Updated:  {new Date(profile.updatedAt).toLocaleDateString()} </span>{' '}
-        
-        </p>
-        <p onClick={() => setIsUpdatingPassword(!isUpdatingPassword)} className='bg-blue-700 text-white text-lg p-2 flex justify-center my-3 rounded-xl'> Update Password</p>
+  <section className="flex flex-col md:flex-row justify-between items-center mb-5 bg-white rounded-lg shadow-md p-4">
+    <div className="flex items-center gap-4 mb-5 relative">
+      <img
+        src={profile.avatarImage?.url}
+        alt="Avatar"
+        className="w-24 h-24 rounded-full object-cover border-4 border-blue-300 shadow-lg"
+      />
+      <div>
+        <h2 className="text-2xl font-bold text-gray-800">{profile.channelName}</h2>
+        <p className="text-gray-600">{profile.userName}</p>
       </div>
+      <button
+        className="absolute top-16 left-16 bg-white p-1 rounded-full shadow-lg hover:shadow-xl transition transform hover:scale-105"
+        onClick={() => setIsEditingAvatar(!isEditingAvatar)}
+      >
+        <Edit3 className="w-4 h-4 text-blue-600" />
+      </button>
+    </div>
 
-      </section>
-      
-      {isUpdatingPassword && (
-      <section className="mt-5">
-        <h3 className="text-xl font-bold">Update Password</h3>
-        <input
-          type="password"
-          placeholder="Old Password"
-          className="border p-2 w-full mt-2 rounded"
-          value={oldPassword}
-          onChange={(e) => setOldPassword(e.target.value)}
-        />
-        <input
-          type="password"
-          placeholder="New Password"
-          className="border p-2 w-full mt-2 rounded"
-          value={newPassword}
-          onChange={(e) => setNewPassword(e.target.value)}
-        />
-        <button
-          onClick={handleUpdatePassword}
-          className="bg-blue-500 text-white px-4 py-2 rounded mt-3"
-        >
-         {updatePasswordMutation.isPending ? < LoaderPinwheel className="animate-spin text-white"  /> : "Update Password" } 
-        </button>
-      </section>
-)}
+    <div className="profile-info mt-5 text-gray-800">
+      <p className="text-lg">
+        <span className="font-semibold">Email: {profile.emailId}</span>
+      </p>
+      <p className="font-thin">
+        <span className="text-base">Account Created: {new Date(profile.createdAt).toLocaleDateString()}</span>
+      </p>
+      <p className="font-extralight">
+        <span className="text-base">Last Updated: {new Date(profile.updatedAt).toLocaleDateString()}</span>
+      </p>
+      <p
+        onClick={() => setIsUpdatingPassword(!isUpdatingPassword)}
+        className="bg-blue-700 text-white text-lg p-2 flex justify-center my-3 rounded-xl cursor-pointer hover:bg-blue-600 transition"
+      >
+        Update Password
+      </p>
+    </div>
+  </section>
+
+  {isUpdatingPassword && (
+    <section className="mt-5 bg-white p-5 rounded-lg shadow-md">
+      <h3 className="text-xl font-bold text-gray-800">Update Password</h3>
+      <input
+        type="password"
+        placeholder="Old Password"
+        className="border border-gray-300 p-2 w-full mt-2 rounded focus:outline-none focus:ring-2 focus:ring-blue-500"
+        value={oldPassword}
+        onChange={(e) => setOldPassword(e.target.value)}
+      />
+      <input
+        type="password"
+        placeholder="New Password"
+        className="border border-gray-300 p-2 w-full mt-2 rounded focus:outline-none focus:ring-2 focus:ring-blue-500"
+        value={newPassword}
+        onChange={(e) => setNewPassword(e.target.value)}
+      />
+      <button
+        onClick={handleUpdatePassword}
+        className="bg-blue-500 text-white px-4 py-2 rounded mt-3 transition-transform transform hover:scale-105"
+      >
+        {updatePasswordMutation.isPending ? <LoaderPinwheel className="animate-spin text-white" /> : "Update Password"}
+      </button>
+    </section>
+  )}
+
+  {isEditingAvatar && (
+    <section className="mt-5 bg-white p-5 rounded-lg shadow-md">
+      <h3 className="text-xl font-bold text-gray-800">Update Profile Image</h3>
+      <input
+        type="file"
+        className="border border-gray-300 p-2 w-full mt-2 rounded focus:outline-none focus:ring-2 focus:ring-blue-500"
+        onChange={(e) => setAvatarImage(e.target.files[0])}
+      />
+      <button
+        onClick={handleUpdateAvatarImage}
+        className="bg-blue-500 text-white px-4 py-2 rounded mt-3 transition-transform transform hover:scale-105"
+      >
+        {updateAvatarImageMutation.isPending ? <LoaderPinwheel className="animate-spin text-white" /> : "Update Profile Image"}
+      </button>
+    </section>
+  )}
+
+  {isEditingCover && (
+    <section className="mt-5 bg-white p-5 rounded-lg shadow-md">
+      <h3 className="text-xl font-bold text-gray-800">Update Cover Image</h3>
+      <input
+        type="file"
+        className="border border-gray-300 p-2 w-full mt-2 rounded focus:outline-none focus:ring-2 focus:ring-blue-500"
+        onChange={(e) => setCoverImage(e.target.files[0])}
+      />
+      <button
+        onClick={handleUpdateCoverImage}
+        className="bg-blue-500 text-white px-4 py-2 rounded mt-3 transition-transform transform hover:scale-105"
+      >
+        {updateCoverImageMutation.isPending ? <LoaderPinwheel className="animate-spin text-white" /> : "Update Cover Image"}
+      </button>
+    </section>
+  )}
+</main>
 
 
-   {isEditingAvatar && (  
-      <section className="mt-5">
-        <h3 className="text-xl font-bold">Update Profile Image</h3>
-        <input
-          type="file"
-          className="border p-2 w-full mt-2 rounded"
-          onChange={(e) => setAvatarImage(e.target.files[0])}
-        />
-        <button
-          onClick={handleUpdateAvatarImage}
-          className="bg-blue-500 text-white px-4 py-2 rounded mt-3"
-        >
-         {updateAvatarImageMutation.isPending ? < LoaderPinwheel className="animate-spin text-white"  /> : " Update Profile Image" } 
-        </button>
-      </section>
-)} 
-
-
-    {isEditingCover && (
-      <section className="mt-5" >
-        <h3 className="text-xl font-bold">Update Cover Image</h3>
-        <input
-          type="file"
-          className="border p-2 w-full mt-2 rounded"
-          onChange={(e) => setCoverImage(e.target.files[0])}
-        />
-        <button
-          onClick={handleUpdateCoverImage}
-          className="bg-blue-500 text-white px-4 py-2 rounded mt-3"
-        >
-          {updateCoverImageMutation.isPending ? < LoaderPinwheel className="animate-spin text-white"  /> : " Update Cover Image" }
-         
-        </button>
-      </section>
-)}
-
-    </main>
   );
 };
 
