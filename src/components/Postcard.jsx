@@ -1,9 +1,49 @@
-import React from 'react'
+import React, { useMemo } from 'react'
+import { ThumbsUp } from 'lucide-react'
+import { useMutation, useQueryClient } from '@tanstack/react-query';
+import { axiosInstance } from '../utils/axiosInstance';
+import toast from 'react-hot-toast';
 
 const Postcard = ({post}) => {
  
   const {content, createdAt, likes, } = post;
   const {channelName , avatarImage} = post?.ownerDetails;
+
+  const queryClient = useQueryClient();
+
+
+
+  const channelId =post?.channelId
+  
+
+
+  
+  const likeMutation = useMutation({
+    mutationFn: async (postId) => {
+      const response = await axiosInstance.post(`/like/post/${postId}`);
+      return response?.data;
+    },
+    onSuccess: (data) => {
+      toast.success(data?.message);
+      queryClient.invalidateQueries(['channelPosts', channelId],)
+      
+      
+    },
+    onError: (error) => {
+      toast.error(error?.response?.data?.message || "failed like")
+    }
+  })
+  
+
+  const handleLike = (postId) => {
+
+likeMutation.mutate(postId);
+
+  }
+
+ const isLiked = useMemo(() => likeMutation?.data?.isLiked, [likeMutation] )
+
+  
   
 
   return (
@@ -26,8 +66,8 @@ const Postcard = ({post}) => {
 
   <div className="flex justify-between items-center border-t pt-4 border-gray-100">
     <p className="text-sm text-gray-500 font-medium">❤️ {likes} Likes</p>
-    <button className="px-4 py-2 text-sm font-semibold text-white bg-blue-500 rounded-full shadow hover:bg-blue-600 hover:shadow-lg transition duration-200">
-      Like
+    <button onClick={ () => handleLike(post?._id)} className= { `px-4 py-2 text-sm font-semibold text-white  rounded-full shadow hover:bg-blue-800 hover:shadow-lg transition duration-200 ${isLiked ? `bg-blue-600` : `bg-slate-800`}`  }>
+    <ThumbsUp  />
     </button>
   </div>
 </div>

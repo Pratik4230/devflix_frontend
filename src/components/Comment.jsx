@@ -1,16 +1,129 @@
-import React from 'react';
+import { useMutation, useQueryClient } from '@tanstack/react-query';
+import React, { useState } from 'react';
+import { useSelector } from 'react-redux';
+import { ThumbsUp } from 'lucide-react';
+import { axiosInstance } from '../utils/axiosInstance';
+import toast from 'react-hot-toast';
 
-const Comment = ({ avatar, channelName, content, createdAt }) => {
+const Comment = ({ comment }) => {
+
+  const [editingCommentId, setEditingCommentId] = useState(null);
+  const [editingContent, setEditingContent] = useState('');
+
+  const {avatar, channelName, content, createdAt , key, likes , videoId } = comment
+
+  const user = useSelector((state) => state?.user?.user);
+
+  const queryClient = useQueryClient();
+
+  const updateCommentMutation = useMutation({
+    mutationFn: async ({ commentId, content }) => {
+      const response = await axiosInstance.patch(`/comment/update/${commentId}`, { content });
+      console.log("requested");
+      
+      return response.data;
+    },
+    onSuccess: () => {
+     
+      
+      queryClient.invalidateQueries(['comments', videoId]);
+      console.log("ss2");
+      
+      toast.success('Comment updated successfully');
+      console.log("in success");
+      
+      setEditingCommentId(null);
+      setEditingContent('');
+    },
+    onError: (error) => {
+      console.log("inerr");
+      
+      toast.error(`Failed to update comment: ${error?.response?.data}`);
+    },
+  });
+
+  const deleteCommentMutation = useMutation({
+    mutationFn: async (commentId) => {
+      const response = await axiosInstance.delete(`/comment/delete/${commentId}`);
+      return response.data;
+    },
+    onSuccess: () => {
+      queryClient.invalidateQueries(['comments', videoId]);
+      toast.success('Comment deleted successfully!');
+    },
+    onError: (error) => {
+      toast.error(error?.response?.data?.message || "failed to delete comment");
+    },
+  });
+
+  const handleUpdateComment = (commentId) => {
+    if (editingContent.trim()) {
+      updateCommentMutation.mutate({ commentId, content: editingContent });
+    }
+    console.log("clicking");
+    
+  };
+
   return (
-    <div className="flex gap-3 p-3 border-b border-gray-700">
-      <img src={avatar} alt="avatar" className="w-12 h-12 rounded-full" />
-      <div className="flex flex-col">
-        <div className="flex items-center gap-2">
-          <p className="font-semibold text-lg">{channelName}</p>
-          <p className="text-sm text-gray-400">{new Date(createdAt).toLocaleString()}</p>
-        </div>
-        <p>{content}</p>
-      </div>
+    <div className="my-3 border-b-2 p-2 px-4 w-full">
+       <div className="flex items-center gap-3">
+                <img src={avatar} alt={channelName} className="w-10 h-10 rounded-full" />
+                <p className="font-semibold">{channelName}</p>
+              </div>
+
+              <p className=" flex gap-3 text-slate-50 my-2">{content} </p>
+
+              <p className='flex gap-3 mb-3'> <span
+                  // className={ `px-4 py-2 text-sm font-semibold text-white  rounded-full shadow hover:bg-blue-800 hover:shadow-lg transition duration-200 ${isLiked ? `bg-blue-600` : `bg-slate-800`}`  }
+                   >
+                    <ThumbsUp/></span>  <span>{likes}</span>  </p>
+      
+
+                    {user?.channelName === channelName && (
+                <div className="mt-2">
+                  {editingCommentId === key ? (
+                    <div className="mt-2">
+                      <textarea
+                        className="w-full border border-gray-300 p-2 rounded-md"
+                        value={editingContent}
+                        onChange={(e) => setEditingContent(e.target.value)}
+                      />
+                      <button
+                        className="bg-green-500 text-white px-4 py-2 rounded-md mt-2"
+                        onClick={() => handleUpdateComment(key)}
+                      >
+                        Update Comment
+                      </button>
+                      <button
+                        className="bg-gray-500 text-white px-4 py-2 rounded-md mt-2"
+                        onClick={() => setEditingCommentId(null)}
+                      >
+                        Cancel
+                      </button>
+                    </div>
+                  ) : (
+                    <div className="mt-2">
+                      <button
+                        className="bg-yellow-500 text-white px-4 py-1 rounded-md"
+                        onClick={() => {
+                          setEditingCommentId(key);
+                          setEditingContent(content);
+                        }}
+                      >
+                        Edit
+                      </button>
+                      <button
+                        className="bg-red-500 text-white px-4 py-1 rounded-md ml-2"
+                        onClick={() => deleteCommentMutation.mutate(key)}
+                      >
+                        Delete
+                      </button>
+                    </div>
+                  )}
+                </div>
+              )}
+    
+      
     </div>
   );
 };

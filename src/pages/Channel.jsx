@@ -238,7 +238,7 @@ const Channel = () => {
       </>
     ) : (
       <div className="mt-4 p-3 bg-yellow-50 border-l-4 border-yellow-400 text-yellow-800 rounded-md shadow-md">
-        <p className="font-semibold text-sm">Hi, {user.userName}!</p>
+        <p className="font-semibold text-sm">Hi, {user?.userName}!</p>
         <p className="text-xs">You're viewing your channel. Keep creating!</p>
       </div>
     )}
