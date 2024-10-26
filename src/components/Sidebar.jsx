@@ -1,5 +1,5 @@
 import React from 'react'
-import { Heart, History, House, ListVideo, TvMinimalPlay, Youtube } from 'lucide-react'
+import { Heart, History, House,Video , TvMinimalPlay, Youtube } from 'lucide-react'
 import {Link} from 'react-router-dom'
 import { useSelector } from 'react-redux'
 
@@ -27,6 +27,7 @@ const Sidebar = ({ isDrawerOpen, toggleDrawer }) => {
        <Link to={`/channel/${user?._id}`} >  <div className={MenuClasses}> <TvMinimalPlay size={32} />   <p className={MenuTag}> Your Channel</p>   </div> </Link>
        <div className={MenuClasses}> <Heart size={32} /> <p className={MenuTag}>Liked Videos </p> </div>
        <div className={MenuClasses}> <History size={32} /> <p className={MenuTag}>Watch History</p>  </div> 
+    <Link to={'/managevideos'} >   <div className={MenuClasses}> <Video  size={32} /> <p className={MenuTag}>Manage Videos</p>  </div>  </Link>
        </aside> 
     ) }
     
