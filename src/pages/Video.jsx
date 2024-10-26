@@ -16,6 +16,7 @@ const Video = () => {
   const [showAddToPlaylist, setShowAddToPlaylist] = useState(false);
   const [selectedPlaylist, setSelectedPlaylist] = useState(null);
 
+
   const user = useSelector((state) => state?.user?.user);
 
   const { data: video, isLoading, isError } = useQuery({
@@ -55,7 +56,7 @@ const Video = () => {
     removeVideoFromPlaylist.mutate();
   };
 
-  if (isLoading) return <Shimmer />;
+  if (isLoading||isLoadingPlaylists  ) return <Shimmer />;
   if (isError) return <p className="text-red-500">Error loading video</p>;
 
   const formattedDate = new Date(video.createdAt).toLocaleDateString();
@@ -95,12 +96,14 @@ const Video = () => {
               <LoaderPinwheel className="animate-spin text-white mx-auto" />
             ) : (
               <div className="flex flex-col sm:flex-row items-center gap-3">
+                {console.log("playyy", playlists)
+                }
                 <select
                   className="p-2 rounded bg-gray-700 text-white w-full sm:w-auto focus:ring-2 focus:ring-emerald-500"
                   onChange={(e) => setSelectedPlaylist(e.target.value)}
                 >
                   <option value="">Choose Playlist</option>
-                  {playlists?.map((playlist) => (
+                  {playlists?.data?.map((playlist) => (
                     <option key={playlist._id} value={playlist._id}>{playlist.name}</option>
                   ))}
                 </select>
@@ -108,7 +111,7 @@ const Video = () => {
                 <button
                   onClick={handleAddToPlaylist}
                   className="px-4 py-2 bg-blue-500 text-white rounded-lg hover:bg-blue-600 transition shadow-lg hover:shadow-xl transform hover:scale-105 w-full sm:w-auto"
-                  disabled={!selectedPlaylist || isVideoInSelectedPlaylist}
+                  disabled={!selectedPlaylist }
                 >
                   {addToPlaylistMutation.isLoading ? <LoaderPinwheel className="animate-spin text-white" /> : 'Add'}
                 </button>
