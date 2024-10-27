@@ -2,7 +2,7 @@ import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 import  { useState, useEffect, useMemo } from 'react';
 import { Link, useNavigate, useParams } from 'react-router-dom';
 import { axiosInstance } from '../utils/axiosInstance';
-import Videocard from '../components/Videocard';
+import VideoCard from '../components/VideoCard';
 import { useSelector } from 'react-redux';
 import toast from 'react-hot-toast';
 
@@ -165,7 +165,7 @@ const Playlist = () => {
       <section className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6 px-4 pt-6">
         {playlist?.data[0]?.videoData.map((video) => (
           <Link to={`/playlist/${playlistId}/video/${video?._id}`} key={video?._id}>
-            <Videocard video={video} currentPlaylist={playlistId} />
+            <VideoCard video={video} currentPlaylist={playlistId} />
           </Link>
         ))}
       </section>

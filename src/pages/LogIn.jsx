@@ -37,19 +37,17 @@ const LogIn = () => {
 
 const mutation = useMutation({
   mutationFn: async (data) => {
-    const response = await axiosInstance.post("/user/login", data)
+    const response = await axiosInstance.post("/user/login", data);
     return response.data
   },
 
-  onSuccess: (data) => {
-    toast.success(data.message ||"Login successfully")
-   
-    queryClient.invalidateQueries(['authUser']);
+  onSuccess: (data) => {  
+    toast.success(data.message ||"Login successfully")  
+    queryClient.invalidateQueries(['authUser']); 
     navigate('/', { replace: true });
-    
   },
 
-  onError: (error) => {
+  onError: (error) => { 
     toast.error(error?.response?.data?.message)
     console.error('err' , error);
   }
