@@ -2,7 +2,7 @@
 import React from 'react'
 
 
-export const VideoCard = ({video}) => {
+ const VideoCard = ({video}) => {
   
 
   const {title, duration, views, createdAt , ownerDetails, thumbnail} = video
@@ -45,3 +45,5 @@ export const VideoCard = ({video}) => {
 
   )
 };
+
+export default VideoCard;

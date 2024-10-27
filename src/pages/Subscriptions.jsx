@@ -5,7 +5,7 @@ import { Link } from 'react-router-dom'
 
 import Shimmer from '../components/Shimmer';
 
-import {VideoCard} from "../components/VideoCard"
+import VideoCard from "../components/VideoCard"
 
 const Subscriptions = () => {
 

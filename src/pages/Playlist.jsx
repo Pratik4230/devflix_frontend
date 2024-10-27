@@ -2,7 +2,7 @@ import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 import  { useState, useEffect, useMemo } from 'react';
 import { Link, useNavigate, useParams } from 'react-router-dom';
 import { axiosInstance } from '../utils/axiosInstance';
-import {VideoCard} from "../components/VideoCard"
+import VideoCard from "../components/VideoCard"
 import { useSelector } from 'react-redux';
 import toast from 'react-hot-toast';
 

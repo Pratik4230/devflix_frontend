@@ -6,7 +6,7 @@ import toast from 'react-hot-toast';
 import { LoaderPinwheel } from 'lucide-react'; 
 import Shimmer from '../components/Shimmer'; 
  
-import {VideoCard} from "../components/VideoCard"
+import  from "../components/VideoCard"
 import Postcard from '../components/Postcard'; 
 import PlaylistCard from '../components/PlaylistCard'; 
 import { useSelector } from 'react-redux';
