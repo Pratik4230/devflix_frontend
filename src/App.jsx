@@ -34,9 +34,13 @@ function App() {
       try {
         const response = await axiosInstance.get("/user/auth");
         dispatch(addUser(response?.data?.data))
+        console.log("authUser got user");
+        
         return response.data;
 
       } catch (error) {
+        console.log("auth user error" , error);
+        
         if (error.response && error.response.status === 401) {
           return null
         }
