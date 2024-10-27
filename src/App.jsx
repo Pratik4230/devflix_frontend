@@ -4,7 +4,7 @@ import { BrowserRouter, Navigate, Route, Routes } from 'react-router-dom'
 import './App.css'
 import Container from './pages/Container'
 
-import Login from "@pages/Login";
+
 
 
 import Signup from "./pages/Signup"
@@ -22,7 +22,7 @@ import Channel from './pages/Channel'
 import Playlist from './pages/Playlist'
 import Subscriptions from './pages/Subscriptions'
 import MyVideos from './pages/MyVideos'
-
+import Login from './pages/LogIn'
 
 
 function App() {
