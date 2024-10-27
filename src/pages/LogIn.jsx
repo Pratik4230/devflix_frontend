@@ -1,14 +1,13 @@
-import React, { useEffect } from "react";
+import React from "react";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { axiosInstance } from "../utils/axiosInstance";
 import toast from "react-hot-toast";
-import { Navigate, useNavigate } from "react-router-dom";
+import {  useNavigate } from "react-router-dom";
 import { Loader } from "lucide-react";
-import { useDispatch, useSelector } from "react-redux";
-import { addUser } from "../../store/UserSlice";
+
 
 const LoginSchema = z.object({
   emailId: z
@@ -43,7 +42,7 @@ const mutation = useMutation({
   },
 
   onSuccess: (data) => {
-    toast.success("Login successfully")
+    toast.success(data.message ||"Login successfully")
    
     queryClient.invalidateQueries(['authUser']);
     navigate('/', { replace: true });
