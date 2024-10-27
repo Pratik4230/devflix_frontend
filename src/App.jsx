@@ -3,7 +3,7 @@ import { BrowserRouter, Navigate, Route, Routes } from 'react-router-dom'
 
 import './App.css'
 import Container from './pages/Container'
-import Login from "./pages/Login"
+import Login from "./pages/Login.jsx"
 import Signup from "./pages/Signup"
 
 import toast, { Toaster } from 'react-hot-toast'
