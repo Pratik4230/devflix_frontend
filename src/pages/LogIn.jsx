@@ -5,7 +5,7 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { axiosInstance } from "../utils/axiosInstance";
 import toast from "react-hot-toast";
-import {  useNavigate } from "react-router-dom";
+import {  Link, useNavigate } from "react-router-dom";
 import { Loader } from "lucide-react";
 
 
@@ -42,14 +42,20 @@ const mutation = useMutation({
   },
 
   onSuccess: (data) => {  
-    toast.success(data.message ||"Login successfully")  
+    
+    toast.success(data.message ||"Login successfully") 
+    console.log("1 login success toast");
+   
     queryClient.invalidateQueries(['authUser']); 
+    console.log(" 2 login invalidate authuser"); 
     navigate('/', { replace: true });
+    console.log("3 login navigate /");
+    
   },
 
   onError: (error) => { 
     toast.error(error?.response?.data?.message)
-    console.error('err' , error);
+    console.error('login err' , error);
   }
 
 })
@@ -111,6 +117,9 @@ const mutation = useMutation({
        {mutation.isPending ? <Loader className="animate-spin text-white"/>  : "LogIn"}
         </button>
       </form>
+
+ <p className="mt-3 text-lg flex justify-center">New User ? <Link to={'/signup'}> <span className="text-blue-600">Sign Up</span> </Link>  </p>
+
     </div>
   );
 };

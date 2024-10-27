@@ -5,8 +5,6 @@ import './App.css'
 import Container from './pages/Container'
 
 
-
-
 import Signup from "./pages/Signup"
 
 import toast, { Toaster } from 'react-hot-toast'
@@ -36,8 +34,6 @@ function App() {
       try {
         const response = await axiosInstance.get("/user/auth");
         dispatch(addUser(response?.data?.data))
-        
-        
         return response.data;
 
       } catch (error) {
