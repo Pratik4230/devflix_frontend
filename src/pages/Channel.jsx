@@ -1,5 +1,5 @@
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query'; 
-import React, { useEffect, useState } from 'react'; 
+import  { useEffect, useState } from 'react'; 
 import { Link, useParams } from 'react-router-dom'; 
 import { axiosInstance } from '../utils/axiosInstance'; 
 import toast from 'react-hot-toast'; 
@@ -240,7 +240,7 @@ const Channel = () => {
     ) : (
       <div className="mt-4 p-3 bg-yellow-50 border-l-4 border-yellow-400 text-yellow-800 rounded-md shadow-md">
         <p className="font-semibold text-sm">Hi, {user?.userName}!</p>
-        <p className="text-xs">You're viewing your channel. Keep creating!</p>
+        <p className="text-xs">You&apos;re viewing your channel. Keep creating!</p>
       </div>
     )}
 

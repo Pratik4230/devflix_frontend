@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import  { useState } from 'react';
 import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
 import { axiosInstance } from '../utils/axiosInstance';
 import toast from 'react-hot-toast';
@@ -18,7 +18,7 @@ const CommentSection = ({ videoId }) => {
       const response = await axiosInstance.get(`/comment/video/${videoId}`);
       return response.data;
     },
-    onError: (error) => {
+    onError: () => {
       toast.error("comment error")
       
     }

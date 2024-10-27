@@ -1,5 +1,5 @@
 import { useQuery } from '@tanstack/react-query'
-import React from 'react'
+
 import { axiosInstance } from '../utils/axiosInstance'
 import { Link } from 'react-router-dom'
 import VideoCard from '../components/VideoCard'
@@ -7,7 +7,7 @@ import Shimmer from '../components/Shimmer'
 
 const Subscriptions = () => {
 
-  const {data: subscribedTo , isLoading: subscribedToLoading, isError: subscribedToError} = useQuery({
+  const {data: subscribedTo } = useQuery({
      queryKey: ['subscribedTo'],
      queryFn: async () => {
        const response = await axiosInstance.get(`/subscription/channels`);
@@ -16,7 +16,7 @@ const Subscriptions = () => {
      staleTime: 1000*60*10,
   });
 
-  const {data: subsVideos, isLoading: subsVideosLoading, isError: subsVideosError} = useQuery({
+  const {data: subsVideos, isLoading: subsVideosLoading} = useQuery({
     queryKey: ["subsVids"],
     queryFn: async () => {
       const response = await axiosInstance.get("/subscription/subsVids");

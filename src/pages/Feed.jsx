@@ -1,7 +1,7 @@
-import React from 'react'
+
 import { axiosInstance } from '../utils/axiosInstance'
 import { useQuery } from '@tanstack/react-query';
-import toast from 'react-hot-toast';
+
 import Shimmer from '../components/Shimmer';
 import VideoCard from '../components/VideoCard';
 import { Link } from 'react-router-dom';

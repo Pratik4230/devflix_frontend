@@ -1,5 +1,5 @@
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
-import React, { useState, useEffect, useMemo } from 'react';
+import  { useState, useEffect, useMemo } from 'react';
 import { Link, useNavigate, useParams } from 'react-router-dom';
 import { axiosInstance } from '../utils/axiosInstance';
 import VideoCard from '../components/VideoCard';
@@ -98,6 +98,7 @@ const Playlist = () => {
     </p>;
   }
 
+  // eslint-disable-next-line no-unsafe-optional-chaining
   const { name, description, createdAt } = playlist?.data[0]?.playlistData;
 
   return (

@@ -1,5 +1,5 @@
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
-import React, { useMemo, useState } from 'react';
+import { useMemo, useState } from 'react';
 import { Link, useNavigate, useParams } from 'react-router-dom';
 import { axiosInstance } from '../utils/axiosInstance';
 import toast from 'react-hot-toast';
@@ -73,7 +73,7 @@ const Video = () => {
      
       toast.success(data?.message || "like toggle")
     },
-    onError: (error) => {
+    onError: () => {
       toast.error("like error")
     }
   });

@@ -1,10 +1,10 @@
-import React, { useEffect } from 'react'
+import  { useEffect } from 'react'
 import {z} from 'zod';
 import { useForm } from "react-hook-form"
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useMutation } from '@tanstack/react-query';
 import { axiosInstance } from '../utils/axiosInstance';
-import toast , {Toaster} from 'react-hot-toast'
+import toast  from 'react-hot-toast'
 import { Loader } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
@@ -33,7 +33,7 @@ const Signup = () => {
     if (user != null) {
       return navigate('/')
     }
-  }, [])
+  }, []);
  
   
 
