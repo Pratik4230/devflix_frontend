@@ -22,7 +22,7 @@ import Channel from './pages/Channel'
 import Playlist from './pages/Playlist'
 import Subscriptions from './pages/Subscriptions'
 import MyVideos from './pages/MyVideos'
-import Login from './pages/LogIn'
+import LogIn from './pages/LogIn'
 
 
 function App() {
@@ -61,7 +61,7 @@ function App() {
       <Routes>
         <Route path='/' element={<Container/>}>
         <Route path='/' element={authUser ? <Feed/> : <Navigate to={"/login"} /> } />
-          <Route path='/login' element={ !authUser ? <Login/> : <Navigate to={'/'} /> }/>
+          <Route path='/login' element={ !authUser ? <LogIn/> : <Navigate to={'/'} /> }/>
           <Route path='/signup' element={ !authUser ? <Signup/> : <Navigate to={'/'} /> }/>
           <Route path='/video/:videoId' element= {authUser ? <Video/> : <Navigate to={'/'}/> } />
           <Route path='/profile' element= {authUser ? <Profile/> : <Navigate to={'/'}/> } />
