@@ -159,9 +159,11 @@ const Playlist = () => {
         </section>
       )}
 
+
+
       <section className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6 px-4 pt-6">
         {playlist?.data[0]?.videoData.map((video) => (
-          <Link to={`/playlist/${playlist?._id}/video/${video?._id}`} key={video?._id}>
+          <Link to={`/playlist/${playlistId}/video/${video?._id}`} key={video?._id}>
             <VideoCard video={video} currentPlaylist={playlistId} />
           </Link>
         ))}

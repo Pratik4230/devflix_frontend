@@ -6,6 +6,8 @@ import toast from 'react-hot-toast';
 import Comment from './Comment';
 
 const CommentSection = ({ videoId }) => {
+ 
+  
   const queryClient = useQueryClient();
   const [newComment, setNewComment] = useState('');
  
@@ -15,6 +17,10 @@ const CommentSection = ({ videoId }) => {
     queryFn: async () => {
       const response = await axiosInstance.get(`/comment/video/${videoId}`);
       return response.data;
+    },
+    onError: (error) => {
+      toast.error("comment error")
+      
     }
   });
 
@@ -48,8 +54,6 @@ const CommentSection = ({ videoId }) => {
   if (isLoading) return <div>Loading comments...</div>;
   if (isError) return <div>Error loading comments</div>;
 
-  console.log("comments ,, " , comments);
-  
 
   return (
     <section className="w-screen mt-5 flex flex-col items-center">
@@ -76,7 +80,7 @@ const CommentSection = ({ videoId }) => {
         ) : (
           comments?.map((comment) => (
          
-              <Comment comment={comment} />
+              <Comment key={comment?.key} comment={comment} />
             
              
                

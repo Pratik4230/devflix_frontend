@@ -56,9 +56,9 @@ const Profile = () => {
       setIsEditingAvatar(false)
     },
     onError: (error) => {
-      console.log(error);
+    
       
-      toast.error(error.response?.ata || 'Failed to update profile image');
+      toast.error(error.response?.data || 'Failed to update profile image');
     },
   });
 

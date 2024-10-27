@@ -10,7 +10,7 @@ const Comment = ({ comment }) => {
   const [editingCommentId, setEditingCommentId] = useState(null);
   const [editingContent, setEditingContent] = useState('');
 
-  const {avatar, channelName, content, createdAt , key, likes , videoId } = comment
+  const {avatar, channelName, content, createdAt , key, likeCount , videoId } = comment
 
   const user = useSelector((state) => state?.user?.user);
 
@@ -18,26 +18,16 @@ const Comment = ({ comment }) => {
 
   const updateCommentMutation = useMutation({
     mutationFn: async ({ commentId, content }) => {
-      const response = await axiosInstance.patch(`/comment/update/${commentId}`, { content });
-      console.log("requested");
-      
+      const response = await axiosInstance.patch(`/comment/update/${commentId}`, { content }); 
       return response.data;
     },
     onSuccess: () => {
-     
-      
       queryClient.invalidateQueries(['comments', videoId]);
-      console.log("ss2");
-      
-      toast.success('Comment updated successfully');
-      console.log("in success");
-      
+      toast.success('Comment updated successfully');      
       setEditingCommentId(null);
       setEditingContent('');
     },
-    onError: (error) => {
-      console.log("inerr");
-      
+    onError: (error) => {  
       toast.error(`Failed to update comment: ${error?.response?.data}`);
     },
   });
@@ -59,10 +49,31 @@ const Comment = ({ comment }) => {
   const handleUpdateComment = (commentId) => {
     if (editingContent.trim()) {
       updateCommentMutation.mutate({ commentId, content: editingContent });
-    }
-    console.log("clicking");
-    
+    } 
   };
+
+ const likeMutation = useMutation({
+  mutationFn: async (cId) => {
+    const response = await axiosInstance.post(`/like/comment/${cId}`);
+    return response.data;
+  },
+  onSuccess: (data) => {
+    queryClient.invalidateQueries(['comments', videoId])
+    toast.success(data.message);
+
+  },
+  onError: (error) => {
+    toast.error("comment like error")
+  }
+ });
+
+  const handleLike = (cId) => {
+    likeMutation.mutate(cId)
+    
+    
+  }
+  
+  
 
   return (
     <div className="my-3 border-b-2 p-2 px-4 w-full">
@@ -73,10 +84,10 @@ const Comment = ({ comment }) => {
 
               <p className=" flex gap-3 text-slate-50 my-2">{content} </p>
 
-              <p className='flex gap-3 mb-3'> <span
+              <p className='flex gap-3 mb-3'> <span onClick={() => handleLike(key)}
                   // className={ `px-4 py-2 text-sm font-semibold text-white  rounded-full shadow hover:bg-blue-800 hover:shadow-lg transition duration-200 ${isLiked ? `bg-blue-600` : `bg-slate-800`}`  }
                    >
-                    <ThumbsUp/></span>  <span>{likes}</span>  </p>
+                    <ThumbsUp/></span>  <span>{likeCount}</span>  </p>
       
 
                     {user?.channelName === channelName && (

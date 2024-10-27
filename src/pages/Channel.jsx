@@ -115,6 +115,7 @@ const Channel = () => {
   const handleCreatePlaylist = (e) => {
     e.preventDefault();
     if (!playlistData.name) return toast.error('Playlist name is required');
+    if (!playlistData.description) return toast.error('Playlist description is required');
     createPlaylistMutation.mutate({ ...playlistData, owner: channel?._id });
   };
 

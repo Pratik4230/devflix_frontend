@@ -27,7 +27,7 @@ const Signup = () => {
   const dispatch = useDispatch();
 
   const user = useSelector((state) => state.user.user)
-  // console.log("user" , user);
+  
 
   useEffect(() => {
     if (user != null) {
@@ -51,12 +51,12 @@ const Signup = () => {
     },
       onSuccess: (data) => {
         toast.success('Signup successful!');
-        console.log('Submitted Data:', data); 
+      
         dispatch(addUser(data))
          navigate('/')
       },
       onError: (error) => {
-        console.error("err" ,error);
+        
         toast.error(error?.response?.data?.message || 'Signup failed. Please try again.');
         
       }

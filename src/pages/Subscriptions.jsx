@@ -30,9 +30,7 @@ const Subscriptions = () => {
 
   return (
     <div>
-     
-      {console.log("vidsss", subsVideos)
-      }
+    
       <section className='flex overflow-x-auto py-5 space-x-4 scrollbar-hide'>
   {subscribedTo?.map((sub) => (
     <Link key={sub?._id} to={`/channel/${sub?._id}`}>

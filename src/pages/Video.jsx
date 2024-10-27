@@ -1,11 +1,11 @@
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
-import React, { useState } from 'react';
+import React, { useMemo, useState } from 'react';
 import { Link, useNavigate, useParams } from 'react-router-dom';
 import { axiosInstance } from '../utils/axiosInstance';
 import toast from 'react-hot-toast';
 import Shimmer from '../components/Shimmer';
 import CommentSection from '../components/CommentSection';
-import { LoaderPinwheel, Trash2 } from 'lucide-react';
+import { LoaderPinwheel, ThumbsUp, Trash2 } from 'lucide-react';
 import { useSelector } from 'react-redux';
 
 const Video = () => {
@@ -16,13 +16,19 @@ const Video = () => {
   const [showAddToPlaylist, setShowAddToPlaylist] = useState(false);
   const [selectedPlaylist, setSelectedPlaylist] = useState(null);
 
+ 
 
   const user = useSelector((state) => state?.user?.user);
 
   const { data: video, isLoading, isError } = useQuery({
     queryKey: ['video', videoId],
-    queryFn: async () => (await axiosInstance.get(`/video/vid/${videoId}`)).data,
-    onError: () => toast.error('Error fetching video'),
+    queryFn: async () =>  {
+     const response = await axiosInstance.get(`/video/vid/${videoId}`);
+      return response?.data;
+    },
+    onError: () =>   {
+      toast.error('Error fetching video');
+    },
   });
 
   const { data: playlists, isLoading: isLoadingPlaylists } = useQuery({
@@ -56,10 +62,47 @@ const Video = () => {
     removeVideoFromPlaylist.mutate();
   };
 
+  
+  const likeMutation = useMutation({
+    mutationFn: async (vId) => {
+      const response = await axiosInstance.post(`/like/video/${vId}`);
+      return response?.data;
+    },
+    onSuccess: (data) => {
+      queryClient.invalidateQueries(["video" , videoId])
+     
+      toast.success(data?.message || "like toggle")
+    },
+    onError: (error) => {
+      toast.error("like error")
+    }
+  });
+
+
+
+  const handleLike = (vId) => {
+    
+    likeMutation.mutate(vId)
+    
+  }
+
+  
+
+  const isLiked = useMemo(() =>  likeMutation?.data?.isLiked, [likeMutation?.data]);
+  
+  
+
   if (isLoading||isLoadingPlaylists  ) return <Shimmer />;
+
+ 
+
+  const {likes, title , views , channelId, ownerAvatar, owner , _id, createdAt} = video;
+  const formattedDate = new Date(createdAt).toLocaleDateString();
+  
+  
   if (isError) return <p className="text-red-500">Error loading video</p>;
 
-  const formattedDate = new Date(video.createdAt).toLocaleDateString();
+
 
   return (
     <main className="video-page flex flex-col items-center justify-center py-8 px-4 bg-gradient-to-br from-gray-900 via-gray-800 to-gray-900 min-h-screen text-gray-200">
@@ -70,12 +113,14 @@ const Video = () => {
   <section className="bg-slate-800 w-full sm:w-11/12 md:w-10/12 lg:w-9/12 xl:w-8/12 p-6 rounded-2xl shadow-lg transition duration-300 hover:shadow-xl hover:bg-slate-700">
     <div className="text-white flex flex-col sm:flex-row justify-between items-start gap-6">
       <div className="space-y-2">
-        <h1 className="text-2xl sm:text-3xl font-extrabold">{video.title}</h1>
-        <p className="text-sm sm:text-base text-gray-400">{video.views} views • {formattedDate}</p>
+        <h1 className="text-2xl sm:text-3xl font-extrabold">{title}</h1>
+        <p className="text-sm sm:text-base text-gray-400">{views} views • {formattedDate}</p>
 
-        <Link to={`/channel/${video?.channelId}`} className="flex items-center gap-3 mt-3 sm:mt-4 hover:underline">
-          <img src={video.ownerAvatar} alt="owner avatar" className="w-10 h-10 sm:w-12 sm:h-12 rounded-full border-2 border-gray-700" />
-          <p className="text-lg sm:text-xl font-semibold">{video.owner}</p>
+        <p className='flex items-center gap-3' > <span onClick={ () => handleLike(_id)}   className={ `px-4 py-2 text-sm font-semibold text-white  rounded-full shadow hover:bg-blue-800 hover:shadow-lg transition duration-200 ${isLiked ? `bg-orange-500` : `bg-slate-800`}`  } > <ThumbsUp/> </span>  <span className='font-semibold text-lg' > {likes}  </span>  </p>
+
+        <Link to={`/channel/${channelId}`} className="flex items-center gap-3 mt-3 sm:mt-4 hover:underline">
+          <img src={ownerAvatar} alt="owner avatar" className="w-10 h-10 sm:w-12 sm:h-12 rounded-full border-2 border-gray-700" />
+          <p className="text-lg sm:text-xl font-semibold">{owner}</p>
         </Link>
       </div>
 
@@ -96,8 +141,7 @@ const Video = () => {
               <LoaderPinwheel className="animate-spin text-white mx-auto" />
             ) : (
               <div className="flex flex-col sm:flex-row items-center gap-3">
-                {console.log("playyy", playlists)
-                }
+               
                 <select
                   className="p-2 rounded bg-gray-700 text-white w-full sm:w-auto focus:ring-2 focus:ring-emerald-500"
                   onChange={(e) => setSelectedPlaylist(e.target.value)}
