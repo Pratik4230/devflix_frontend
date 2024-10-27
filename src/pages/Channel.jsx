@@ -5,7 +5,7 @@ import { axiosInstance } from '../utils/axiosInstance';
 import toast from 'react-hot-toast'; 
 import { LoaderPinwheel } from 'lucide-react'; 
 import Shimmer from '../components/Shimmer'; 
-import VideoCard from '../components/VideoCard'; 
+import Videocard from '../components/Videocard'; 
 import Postcard from '../components/Postcard'; 
 import PlaylistCard from '../components/PlaylistCard'; 
 import { useSelector } from 'react-redux';
@@ -322,7 +322,7 @@ const Channel = () => {
         
         {tab === 'videos' && channelVideos?.videos?.map((video) => (
           <Link to={`/video/${video?._id}`} key={video?._id}>
-            <VideoCard video={video} />
+            <Videocard video={video} />
           </Link>
         ))}
         {tab === 'posts' && postsLoading && <p>Loading posts...</p>}
