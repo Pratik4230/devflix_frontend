@@ -6,7 +6,7 @@ import Shimmer from '../components/Shimmer';
 
 import { Link } from 'react-router-dom';
 
-import VideoCard from '../components/VideoCard';
+import VideoCard from '../components/VideoCard'
 
 
 const Feed = () => {
