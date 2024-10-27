@@ -20,7 +20,7 @@ const LoginSchema = z.object({
     
 });
 
-export const Login = () => {
+const Login = () => {
   const {
     register,
     handleSubmit,
@@ -117,4 +117,5 @@ const mutation = useMutation({
   );
 };
 
+export default Login;
 
