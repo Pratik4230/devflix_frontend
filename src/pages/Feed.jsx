@@ -3,7 +3,7 @@ import { axiosInstance } from '../utils/axiosInstance'
 import { useQuery } from '@tanstack/react-query';
 
 import Shimmer from '../components/Shimmer';
-import VideoCard from '../components/VideoCard';
+import VideoCard from '../components/VideoCard'
 import { Link } from 'react-router-dom';
 
 
