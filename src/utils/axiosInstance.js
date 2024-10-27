@@ -1,6 +1,7 @@
 import axios from 'axios';
+import 'dotenv/config'
 
 export const axiosInstance = axios.create({
-    baseURL: 'https://devflix-awrx.onrender.com',
+    baseURL: import.meta.env.API_URL,
     withCredentials: true
   });
