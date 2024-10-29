@@ -98,7 +98,7 @@ const Playlist = () => {
     </p>;
   }
 
-  // eslint-disable-next-line no-unsafe-optional-chaining
+  
   const { name, description, createdAt } = playlist?.data[0]?.playlistData;
 
   return (

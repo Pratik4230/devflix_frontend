@@ -6,7 +6,7 @@ import { useMutation } from '@tanstack/react-query';
 import { axiosInstance } from '../utils/axiosInstance';
 import toast  from 'react-hot-toast'
 import { Loader } from 'lucide-react';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, Link } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import { addUser } from '../../store/UserSlice';
 
@@ -136,9 +136,12 @@ const Signup = () => {
                 {mutation.isPending ?   <Loader className="animate-spin text-white"  /> : "Signup"}   
               </button>
             </div>
+            <p className="mt-6 text-lg flex justify-center">Have an account?  <Link to={'/login'}> <span className="text-blue-600"> &nbsp;  Log in </span> </Link>  </p>
           </form>
+         
         </div>
       </div>
+      
     </div>
   );
 };

@@ -44,12 +44,11 @@ const mutation = useMutation({
   onSuccess: (data) => {  
     
     toast.success(data.message ||"Login successfully") 
-    console.log("1 login success toast");
    
     queryClient.invalidateQueries(['authUser']); 
-    console.log(" 2 login invalidate authuser"); 
+   
     navigate('/', { replace: true });
-    console.log("3 login navigate /");
+  
     
   },
 
@@ -116,9 +115,11 @@ const mutation = useMutation({
         <button type="submit" className="btn btn-primary w-full mt-4" disabled={mutation.isPending} >
        {mutation.isPending ? <Loader className="animate-spin text-white"/>  : "LogIn"}
         </button>
+
+        <p className="mt-6 text-lg flex justify-center">Don't have an account?   <Link to={'/signup'}> <span className="text-blue-600"> &nbsp; Sign Up now</span> </Link>  </p>
       </form>
 
- <p className="mt-3 text-lg flex justify-center">New User ? <Link to={'/signup'}> <span className="text-blue-600">Sign Up</span> </Link>  </p>
+
 
     </div>
   );

@@ -84,9 +84,7 @@ const Comment = ({ comment }) => {
 
               <p className=" flex gap-3 text-slate-50 my-2">{content} </p>
 
-              <p className='flex gap-3 mb-3'> <span onClick={() => handleLike(key)}
-                  // className={ `px-4 py-2 text-sm font-semibold text-white  rounded-full shadow hover:bg-blue-800 hover:shadow-lg transition duration-200 ${isLiked ? `bg-blue-600` : `bg-slate-800`}`  }
-                   >
+              <p className='flex gap-3 mb-3'> <span onClick={() => handleLike(key)}>
                     <ThumbsUp/></span>  <span>{likeCount}</span>  </p>
       
 

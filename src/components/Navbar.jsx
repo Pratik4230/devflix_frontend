@@ -28,9 +28,7 @@ const Navbar = ({ toggleDrawer }) => {
           toast.success(data?.message ||"logout successful")
           dispatch(removeUser())
             queryClient.invalidateQueries({ queryKey: ["authUser"] })
-            navigate('/' , {replace: true})
-            console.log("logout navigate");
-            
+            navigate('/' , {replace: true})          
            },
            onError: (error) => {
             toast.error(error?.response?.data?.message)
@@ -67,5 +65,5 @@ const Navbar = ({ toggleDrawer }) => {
     </nav>
   )
 }
-// 
+ 
 export default Navbar

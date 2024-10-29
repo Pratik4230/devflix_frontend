@@ -1,5 +1,5 @@
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
-import { useMemo, useState } from 'react';
+import {  useMemo, useState } from 'react';
 import { Link, useNavigate, useParams } from 'react-router-dom';
 import { axiosInstance } from '../utils/axiosInstance';
 import toast from 'react-hot-toast';
@@ -20,6 +20,8 @@ const Video = () => {
 
   const user = useSelector((state) => state?.user?.user);
 
+  
+
   const { data: video, isLoading, isError } = useQuery({
     queryKey: ['video', videoId],
     queryFn: async () =>  {
@@ -30,6 +32,8 @@ const Video = () => {
       toast.error('Error fetching video');
     },
   });
+
+  
 
   const { data: playlists, isLoading: isLoadingPlaylists } = useQuery({
     queryKey: ['playlists'],
@@ -86,9 +90,8 @@ const Video = () => {
     
   }
 
-  
 
-  const isLiked = useMemo(() =>  likeMutation?.data?.isLiked, [likeMutation?.data]);
+  const isLiked = useMemo(() => video?.isLiked || likeMutation?.data?.isLiked, [video, likeMutation?.data]);
   
   
 
@@ -147,9 +150,15 @@ const Video = () => {
                   onChange={(e) => setSelectedPlaylist(e.target.value)}
                 >
                   <option value="">Choose Playlist</option>
-                  {playlists?.data?.map((playlist) => (
+                  { playlists?.data?.length > 0 ? (
+                     playlists?.data?.map((playlist) => (
                     <option key={playlist._id} value={playlist._id}>{playlist.name}</option>
-                  ))}
+                  ))
+                ): (
+                     <option disabled>No playlists available</option>
+
+                  )
+                }
                 </select>
 
                 <button
