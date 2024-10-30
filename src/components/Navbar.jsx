@@ -58,8 +58,8 @@ const Navbar = ({ toggleDrawer }) => {
         <ul
           tabIndex={0}
           className="menu top-10  dropdown-content   z-[1] mt-4 w-52 p-2  shadow    ">
-          <Link to={'/profile'} className=' bg-slate-950 text-lg flex justify-center items-center rounded-xl h-12 border-b-2  text-white'><p>Profile</p></Link>
-          <li onClick={handleLogout} className=' bg-slate-900 text-lg flex justify-center items-center rounded-xl text-white h-12 w-full border-b-2'>Logout</li>
+          <Link to={'/profile'} className=' bg-slate-950 text-lg flex justify-center items-center cursor-pointer rounded-xl h-12 border-b-2  text-white'><p>Profile</p></Link>
+          <li onClick={handleLogout} className=' bg-slate-900 text-lg flex justify-center items-center cursor-pointer rounded-xl text-white h-12 w-full border-b-2'>Logout</li>
         </ul>
       </div> 
     </nav>
