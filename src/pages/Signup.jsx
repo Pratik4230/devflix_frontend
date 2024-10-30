@@ -1,14 +1,13 @@
-import  { useEffect } from 'react'
+
 import {z} from 'zod';
 import { useForm } from "react-hook-form"
 import { zodResolver } from '@hookform/resolvers/zod';
-import { useMutation } from '@tanstack/react-query';
+import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { axiosInstance } from '../utils/axiosInstance';
 import toast  from 'react-hot-toast'
 import { Loader } from 'lucide-react';
 import { useNavigate, Link } from 'react-router-dom';
-import { useDispatch, useSelector } from 'react-redux';
-import { addUser } from '../../store/UserSlice';
+
 
 const SignupSchema = z.object({
   userName: z.string().min(2, "Username must be at least 2 characters").max(20,"Username should be less than 20 characters").toLowerCase().trim(),
@@ -24,17 +23,8 @@ const SignupSchema = z.object({
 const Signup = () => {
 
   const navigate = useNavigate();
-  const dispatch = useDispatch();
 
-  const user = useSelector((state) => state.user.user)
-  
-
-  useEffect(() => {
-    if (user != null) {
-      return navigate('/')
-    }
-  }, []);
- 
+  const queryClient = useQueryClient();
   
 
   const { register, handleSubmit, formState: { errors } } = useForm({
@@ -50,15 +40,18 @@ const Signup = () => {
         
     },
       onSuccess: (data) => {
-        toast.success('Signup successful!');
-      
-        dispatch(addUser(data))
-         navigate('/')
+        toast.success(data.message || 'Signup successful!');
+        
+        
+        queryClient.invalidateQueries(['authUser']);
+        
+        navigate('/', { replace: true });
+        
       },
       onError: (error) => {
         
-        toast.error(error?.response?.data?.message || 'Signup failed. Please try again.');
-        
+        toast.error( error?.response?.data?.message || 'Signup failed. Please try again .');
+        console.log('signup err' , error);
       }
     });
 

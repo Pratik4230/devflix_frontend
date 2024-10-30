@@ -71,7 +71,7 @@ const mutation = useMutation({
       >
         <h2 className="text-2xl font-bold mb-6 text-center">Login</h2>
 
-        {/* Email Field */}
+       
         <div className="mb-4">
           <label className="block text-gray-700 text-sm font-bold mb-2">
             Email ID
@@ -91,7 +91,7 @@ const mutation = useMutation({
           )}
         </div>
 
-        {/* Password Field */}
+       
         <div className="mb-4">
           <label className="block text-gray-700 text-sm font-bold mb-2">
             Password
@@ -111,7 +111,7 @@ const mutation = useMutation({
           )}
         </div>
 
-        {/* Submit Button */}
+       
         <button type="submit" className="btn btn-primary w-full mt-4" disabled={mutation.isPending} >
        {mutation.isPending ? <Loader className="animate-spin text-white"/>  : "LogIn"}
         </button>
