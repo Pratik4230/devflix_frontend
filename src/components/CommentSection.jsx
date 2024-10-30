@@ -18,6 +18,7 @@ const CommentSection = ({ videoId }) => {
       const response = await axiosInstance.get(`/comment/video/${videoId}`);
       return response.data;
     },
+    refetchInterval: 10000,
     onError: () => {
       toast.error("comment error")
       
