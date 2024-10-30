@@ -1,5 +1,5 @@
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
-import {  useMemo, useState } from 'react';
+import {  useEffect, useMemo, useState } from 'react';
 import { Link, useNavigate, useParams } from 'react-router-dom';
 import { axiosInstance } from '../utils/axiosInstance';
 import toast from 'react-hot-toast';
@@ -16,11 +16,13 @@ const Video = () => {
   const [showAddToPlaylist, setShowAddToPlaylist] = useState(false);
   const [selectedPlaylist, setSelectedPlaylist] = useState(null);
 
- 
-
   const user = useSelector((state) => state?.user?.user);
 
-  
+  useEffect(() => {
+    if (videoId) {
+      incrementViews.mutate(videoId);
+    }
+  },[videoId])
 
   const { data: video, isLoading, isError } = useQuery({
     queryKey: ['video', videoId],
@@ -28,6 +30,8 @@ const Video = () => {
      const response = await axiosInstance.get(`/video/vid/${videoId}`);
       return response?.data;
     },
+    staleTime: 1000 * 60 * 5,
+    refetchInterval: 10000,
     onError: () =>   {
       toast.error('Error fetching video');
     },
@@ -38,6 +42,7 @@ const Video = () => {
   const { data: playlists, isLoading: isLoadingPlaylists } = useQuery({
     queryKey: ['playlists'],
     queryFn: async () => (await axiosInstance.get(`/playlist/playlists/${user?._id}`)).data,
+    staleTime: 1000 * 60 * 5,
     onError: () => toast.error('Error fetching playlists'),
   });
 
@@ -82,30 +87,25 @@ const Video = () => {
     }
   });
 
-
-
-  const handleLike = (vId) => {
+  const incrementViews = useMutation({
+    mutationFn: async (videoId) => {
+      const response = await axiosInstance.post(`/video/viewsplus/${videoId}`);
+      return response?.data;
+    },
     
+  })
+
+  const handleLike = (vId) => {   
     likeMutation.mutate(vId)
-    
   }
 
+  if (isLoading || isLoadingPlaylists) return <Shimmer />;
+  if (isError) return <p className="text-red-500">Error loading video try again</p>;
 
-  const isLiked = useMemo(() => video?.isLiked || likeMutation?.data?.isLiked, [video, likeMutation?.data]);
   
-  
-
-  if (isLoading||isLoadingPlaylists  ) return <Shimmer />;
-
- 
-
   const {likes, title , views , channelId, ownerAvatar, owner , _id, createdAt} = video;
   const formattedDate = new Date(createdAt).toLocaleDateString();
   
-  
-  if (isError) return <p className="text-red-500">Error loading video</p>;
-
-
 
   return (
     <main className="video-page flex flex-col items-center justify-center py-8 px-4 bg-gradient-to-br from-gray-900 via-gray-800 to-gray-900 min-h-screen text-gray-200">
@@ -119,7 +119,7 @@ const Video = () => {
         <h1 className="text-2xl sm:text-3xl font-extrabold">{title}</h1>
         <p className="text-sm sm:text-base text-gray-400">{views} views • {formattedDate}</p>
 
-        <p className='flex items-center gap-3' > <span onClick={ () => handleLike(_id)}   className={ `px-4 py-2 text-sm font-semibold text-white  rounded-full shadow hover:bg-blue-800 hover:shadow-lg transition duration-200 ${isLiked ? `bg-orange-500` : `bg-slate-800`}`  } > <ThumbsUp/> </span>  <span className='font-semibold text-lg' > {likes}  </span>  </p>
+        <p className='flex items-center gap-3' > <span onClick={ () => handleLike(_id)}   className= "px-4 py-2 text-sm font-semibold text-white  rounded-full shadow hover:bg-blue-800 hover:shadow-lg transition duration-200  bg-slate-800"> <ThumbsUp/> </span>  <span className='font-semibold text-lg' > {likes}  </span>  </p>
 
         <Link to={`/channel/${channelId}`} className="flex items-center gap-3 mt-3 sm:mt-4 hover:underline">
           <img src={ownerAvatar} alt="owner avatar" className="w-10 h-10 sm:w-12 sm:h-12 rounded-full border-2 border-gray-700" />
@@ -166,7 +166,7 @@ const Video = () => {
                   className="px-4 py-2 bg-blue-500 text-white rounded-lg hover:bg-blue-600 transition shadow-lg hover:shadow-xl transform hover:scale-105 w-full sm:w-auto"
                   disabled={!selectedPlaylist }
                 >
-                  {addToPlaylistMutation.isLoading ? <LoaderPinwheel className="animate-spin text-white" /> : 'Add'}
+                  {addToPlaylistMutation.isPending ? <LoaderPinwheel className="animate-spin text-white" /> : 'Add'}
                 </button>
               </div>
             )}
