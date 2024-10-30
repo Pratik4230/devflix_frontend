@@ -5,6 +5,7 @@ import { axiosInstance } from '../utils/axiosInstance';
 import Videocarrd from '../components/Videocarrd';
 import { useSelector } from 'react-redux';
 import toast from 'react-hot-toast';
+import { LoaderPinwheel } from 'lucide-react';
 
 const Playlist = () => {
   const { playlistId } = useParams();
@@ -23,7 +24,7 @@ const Playlist = () => {
       const response = await axiosInstance.get(`/playlist/playlist/${playlistId}`);
       return response?.data;
     },
-    staleTime: 1000 * 60 * 10,
+    staleTime: 1000 * 60 * 5,
     onSuccess: () => {
       toast.success(playlist?.message || "Playlist fetched successfully");
     },
@@ -147,7 +148,7 @@ const Playlist = () => {
               type="submit"
               className="px-4 py-2 bg-blue-500 text-white rounded-lg hover:bg-blue-600 transition"
             >
-              {updatePlaylistMutation.isLoading ? 'Updating...' : 'Update Playlist'}
+              {updatePlaylistMutation.isPending ? <LoaderPinwheel className="animate-spin text-white" /> : 'Update Playlist'}
             </button>
             <button
               type="button"

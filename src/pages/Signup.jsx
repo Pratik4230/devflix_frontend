@@ -62,15 +62,15 @@ const Signup = () => {
   
 
   return (
-    <div className="flex justify-center items-center h-screen bg-base-200">
-      <div className="card w-96 bg-base-100 shadow-xl">
+    <div className="flex justify-center items-center h-screen bg-base-200 dark:bg-black">
+      <div className="card w-96 bg-base-100 dark:bg-gray-950 shadow-xl">
         <div className="card-body">
-          <h2 className="card-title text-center">Sign Up</h2>
+          <h2 className="card-title dark:text-red-50 text-center">Sign Up</h2>
           <form onSubmit={handleSubmit(onSubmit)}>
            
             <div className="form-control">
               <label className="label">
-                <span className="label-text">Username</span>
+                <span className="label-text dark:text-orange-50">Username</span>
               </label>
               <input
                 type="text"
@@ -84,7 +84,7 @@ const Signup = () => {
         
             <div className="form-control">
               <label className="label">
-                <span className="label-text">Channel Name</span>
+                <span className="label-text dark:text-white">Channel Name</span>
               </label>
               <input
                 type="text"
@@ -98,7 +98,7 @@ const Signup = () => {
           
             <div className="form-control">
               <label className="label">
-                <span className="label-text">Email</span>
+                <span className="label-text dark:text-green-50">Email</span>
               </label>
               <input
                 type="email"
@@ -112,7 +112,7 @@ const Signup = () => {
           
             <div className="form-control">
               <label className="label">
-                <span className="label-text">Password</span>
+                <span className="label-text dark:text-blue-50">Password</span>
               </label>
               <input
                 type="password"
@@ -125,11 +125,11 @@ const Signup = () => {
 
            
             <div className="form-control mt-6">
-              <button type="submit" className="btn btn-primary " disabled={mutation.isPending}>
+              <button type="submit" className="btn text-lg text-orange-100 btn-primary " disabled={mutation.isPending}>
                 {mutation.isPending ?   <Loader className="animate-spin text-white"  /> : "Signup"}   
               </button>
             </div>
-            <p className="mt-6 text-lg flex justify-center">Have an account?  <Link to={'/login'}> <span className="text-blue-600"> &nbsp;  Log in </span> </Link>  </p>
+            <p className="mt-6 text-lg flex text-sky-50 justify-center">Have an account?  <Link to={'/login'}> <span className="text-blue-600"> &nbsp;  Log in </span> </Link>  </p>
           </form>
          
         </div>

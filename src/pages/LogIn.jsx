@@ -64,16 +64,16 @@ const mutation = useMutation({
   };
 
   return (
-    <div className="flex  justify-center items-center h-screen bg-base-200 min-w-screen">
+    <div className="flex  justify-center items-center h-screen bg-base-200 dark:bg-black min-w-screen">
       <form 
         onSubmit={handleSubmit(onSubmit)}
-        className="bg-base-100 p-6 rounded-lg shadow-lg w-full max-w-sm"
+        className="bg-base-100 p-6 rounded-lg shadow-lg w-full dark:bg-gray-950 max-w-sm border-2 border-red-100 "
       >
         <h2 className="text-2xl font-bold mb-6 text-center">Login</h2>
 
        
         <div className="mb-4">
-          <label className="block text-gray-700 text-sm font-bold mb-2">
+          <label className="block text-gray-700 dark:text-green-50 text-sm font-bold mb-2">
             Email ID
           </label>
           <input
@@ -93,7 +93,7 @@ const mutation = useMutation({
 
        
         <div className="mb-4">
-          <label className="block text-gray-700 text-sm font-bold mb-2">
+          <label className="block text-gray-700 dark:text-green-50 text-sm font-bold mb-2">
             Password
           </label>
           <input
@@ -112,11 +112,11 @@ const mutation = useMutation({
         </div>
 
        
-        <button type="submit" className="btn btn-primary w-full mt-4" disabled={mutation.isPending} >
+        <button type="submit" className="btn btn-primary text-white text-lg w-full mt-4" disabled={mutation.isPending} >
        {mutation.isPending ? <Loader className="animate-spin text-white"/>  : "LogIn"}
         </button>
 
-        <p className="mt-6 text-lg flex justify-center">Don't have an account?   <Link to={'/signup'}> <span className="text-blue-600"> &nbsp; Sign Up now</span> </Link>  </p>
+        <p className="mt-6 text-lg dark:text-orange-50 flex justify-center">Don't have an account?   <Link to={'/signup'}> <span className="text-blue-600 "> &nbsp; Sign Up now</span> </Link>  </p>
       </form>
 
 

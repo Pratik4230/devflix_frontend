@@ -18,14 +18,14 @@ const Feed = () => {
       const response = await axiosInstance.get('/video/feed');
       return response.data
     },
-    staleTime: 1000*60*10,
+    staleTime: 1000 * 60 * 5,
     
   });
 
-  if (feedLoading) {
-    return <Shimmer/>
-  }
-
+  if (feedLoading) return <Shimmer />
+      
+  
+  
   if (feedError) {
     return <div>Error</div>
   }
@@ -36,7 +36,7 @@ const Feed = () => {
 
   return (
     
-    <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6 px-4 pt-6 bg-gray-100 ">
+    <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6 px-4 pt-6 bg-gray-100 dark:bg-black">
     {feed?.videos?.map((video) => ( 
      <Link to={`/video/${video._id}`} key={video._id}  > <Videocarrd  video={video} /> </Link>
     ))}

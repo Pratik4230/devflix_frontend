@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useState } from 'react'
 import { CircleUserRound, Menu, MonitorPlay } from 'lucide-react'
 import { useDispatch, useSelector } from 'react-redux'
 import { useMutation, useQueryClient } from '@tanstack/react-query'
@@ -6,6 +6,7 @@ import { axiosInstance } from '../utils/axiosInstance'
 import { Link, useNavigate } from 'react-router-dom'
 import toast from 'react-hot-toast'
 import { removeUser } from '../../store/UserSlice'
+import ThemeToggle from './ThemeToggle'
 
 
 const Navbar = ({ toggleDrawer }) => {
@@ -23,7 +24,6 @@ const Navbar = ({ toggleDrawer }) => {
         mutationFn: async () => {
           return await axiosInstance.post('/user/logout', {});
         },
-
         onSuccess: (data) => {
           toast.success(data?.message ||"logout successful")
           dispatch(removeUser())
@@ -53,7 +53,11 @@ const Navbar = ({ toggleDrawer }) => {
         <Link to={'/'} className="btn btn-ghost text-xl flex items-center">devflix</Link>
       </div>
 
+<section className='flex gap-4 items-center'>
+
+<ThemeToggle />
       <div className="flex items-center dropdown dropdown-end">
+      
         {user ? <img src={Avtar} alt="Profile" tabIndex={0} role="button" className='h-9 w-9 rounded-full ' /> : <CircleUserRound size={32} />}
         <ul
           tabIndex={0}
@@ -62,6 +66,10 @@ const Navbar = ({ toggleDrawer }) => {
           <li onClick={handleLogout} className=' bg-slate-900 text-lg flex justify-center items-center cursor-pointer rounded-xl text-white h-12 w-full border-b-2'>Logout</li>
         </ul>
       </div> 
+
+      </section>
+
+
     </nav>
   )
 }

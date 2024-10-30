@@ -11,7 +11,7 @@ import toast, { Toaster } from 'react-hot-toast'
 import Feed from './pages/Feed'
 import { useQuery } from '@tanstack/react-query'
 import { axiosInstance } from './utils/axiosInstance'
-import Shimmer from './components/Shimmer'
+
 import { useDispatch } from 'react-redux'
 import { addUser } from '../store/UserSlice'
 import Video from './pages/Video'
@@ -49,7 +49,16 @@ function App() {
     }
   });
 
-  if (isLoading) return <Shimmer/>
+  if (isLoading) {
+    return (
+          <div className="flex flex-col items-center justify-center min-h-screen bg-blue-50">
+             <p className="text-lg font-semibold text-gray-700 mb-4 text-center">
+            🚀 Hang tight! We&apos;re waking up your feed. It might take just a moment, but don&apos;t worry—great content is on its way! 🌟 Be patient and get ready to explore!
+             </p>
+    
+  </div>
+    )
+  };
   
 
 

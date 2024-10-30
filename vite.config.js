@@ -10,3 +10,7 @@ export default defineConfig({
     }
   
 });
+
+// http://localhost:8080
+
+// https://devflix-awrx.onrender.com

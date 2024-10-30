@@ -27,6 +27,7 @@ const Profile = () => {
       const response = await axiosInstance.get('/user/profile');
       return response?.data?.data;
     },
+    staleTime: 1000 * 60 * 5,
     onError: (error) => {
       toast.error(error?.response?.data?.message || 'Error fetching profile');
     },
@@ -123,7 +124,7 @@ const Profile = () => {
 
   return (
    
-    <main className="p-5 bg-gradient-to-b from-blue-50 to-blue-100 min-h-screen">
+    <main className="p-5 bg-gradient-to-b from-blue-50 to-blue-100 min-h-screen  ">
     <div className="mb-5 h-56">
       {profile.coverImage?.url ? (
         <div className="relative mb-5">
@@ -153,7 +154,7 @@ const Profile = () => {
       )}
     </div>
 
-    <section className="flex flex-col md:flex-row justify-between items-center mb-5 bg-white rounded-lg shadow-md p-4">
+    <section className="flex flex-col md:flex-row justify-between items-center mb-5 bg-white dark:bg-black  rounded-lg shadow-md p-4">
       <div className="flex items-center gap-4 mb-5 relative">
         <img
           src={profile.avatarImage?.url}
@@ -162,8 +163,8 @@ const Profile = () => {
           onError={(e) => (e.target.style.display = 'none')}
         />
         <div>
-          <h2 className="text-2xl font-bold text-gray-800">{profile.channelName}</h2>
-          <p className="text-gray-600">{profile.userName}</p>
+          <h2 className="text-2xl font-bold text-gray-800 dark:text-gray-50 ">{profile.channelName}</h2>
+          <p className="text-gray-600 dark:text-gray-50">{profile.userName}</p>
         </div>
         <button
           className="absolute top-16 left-16 bg-white p-1 rounded-full shadow-lg hover:shadow-xl transition transform hover:scale-105"
@@ -173,7 +174,7 @@ const Profile = () => {
         </button>
       </div>
 
-      <div className="profile-info mt-5 text-gray-800">
+      <div className="profile-info mt-5 text-gray-800 dark:text-gray-300">
         <p className="text-lg">
           <span className="font-semibold">Email: {profile.emailId}</span>
         </p>
@@ -193,8 +194,8 @@ const Profile = () => {
     </section>
 
     {isUpdatingPassword && (
-      <section className="mt-5 bg-white p-5 rounded-lg shadow-md">
-        <h3 className="text-xl font-bold text-gray-800">Update Password</h3>
+      <section className="mt-5 bg-white dark:bg-black p-5 rounded-lg shadow-md">
+        <h3 className="text-xl font-bold text-gray-800 dark:text-white">Update Password</h3>
         <input
           type="password"
           placeholder="Old Password"
@@ -219,8 +220,8 @@ const Profile = () => {
     )}
 
     {isEditingAvatar && (
-      <section className="mt-5 bg-white p-5 rounded-lg shadow-md">
-        <h3 className="text-xl font-bold text-gray-800">Update Profile Image</h3>
+      <section className="mt-5 bg-white dark:bg-black p-5 rounded-lg shadow-md">
+        <h3 className="text-xl font-bold text-gray-800 dark:text-gray-50">Update Profile Image</h3>
         <input
           ref={avatarInputRef}
           type="file"
@@ -238,8 +239,8 @@ const Profile = () => {
     )}
 
     {isEditingCover && (
-      <section className="mt-5 bg-white p-5 rounded-lg shadow-md">
-        <h3 className="text-xl font-bold text-gray-800">Update Cover Image</h3>
+      <section className="mt-5 bg-white dark:bg-black p-5 rounded-lg shadow-md">
+        <h3 className="text-xl font-bold text-gray-800 dark:text-gray-50">Update Cover Image</h3>
         <input
           ref={coverInputRef}
           type="file"

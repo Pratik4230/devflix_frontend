@@ -6,6 +6,7 @@ import { useSelector } from "react-redux";
 import Shimmer from "../components/Shimmer";
 import { Link } from "react-router-dom";
 import Videocarrd from "../components/Videocarrd";
+import { LoaderPinwheel } from "lucide-react";
 
 
 
@@ -31,6 +32,7 @@ const MyVideos = () => {
         const response = await axiosInstance.get('/video/manage');
         return response?.data || [];
       },
+      staleTime: 1000 * 60 * 5,
     });
 
   const videoUpload = useMutation({
@@ -199,10 +201,10 @@ const handleTogglePublish = (videoId) => {
         </div>
         <button
             type="submit"
-            disabled={videoUpload.isLoading}
-            className={`w-full py-2 px-4 rounded-md text-white font-semibold ${videoUpload.isLoading ? 'bg-gray-400' : 'bg-blue-600 hover:bg-blue-700'} transition duration-200`}
+            disabled={videoUpload.isPending}
+            className="w-full py-2 px-4 rounded-md text-white font-semibold  bg-blue-600 hover:bg-blue-700 transition duration-200 "
         >
-            {videoUpload.isLoading ? 'Uploading...' : 'Upload Video'}
+            {videoUpload.isPending ? <LoaderPinwheel className="animate-spin text-white" /> : 'Upload Video'}
         </button>
         {videoUpload.error && (
             <div className="text-red-600 text-sm text-center">{videoUpload.error.message}</div>
@@ -244,10 +246,10 @@ const handleTogglePublish = (videoId) => {
        </div>
        <button 
            type="submit" 
-           disabled={videoUpdate.isLoading} 
-           className={`w-full py-2 rounded-md text-white ${videoUpdate.isLoading ? 'bg-gray-400' : 'bg-blue-600 hover:bg-blue-700'} transition-all`}
+           disabled={videoUpdate.isPending} 
+           className="w-full py-2 rounded-md text-white bg-blue-600 hover:bg-blue-700 transition-all"
        >
-           {videoUpdate.isLoading ? 'Updating...' : 'Update Video'}
+           {videoUpdate.isPending ? <LoaderPinwheel className="animate-spin text-white" /> : 'Update Video'}
        </button>
        {videoUpdate.error && <div className="mt-2 text-red-600">{videoUpdate.error.message }</div>}
    </form>
@@ -258,6 +260,9 @@ const handleTogglePublish = (videoId) => {
    
  <div className="my-8">
         <h2 className="text-2xl font-semibold text-center mb-4">Manage Videos</h2>
+        {!myVideos?.videos ?  (
+           <p className="text-lg flex flex-wrap justify-center font-semibold bg-slate-100 p-5 text-blue-600">You can start uploading videos for your channel.</p> 
+          ) : (
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
           {myVideos?.videos?.map((video) => (
             <div key={video._id} className="relative p-4 bg-white shadow-lg rounded-lg">
@@ -282,6 +287,7 @@ const handleTogglePublish = (videoId) => {
             </div>
           ))}
         </div>
+        )}
       </div>
   
 

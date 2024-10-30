@@ -3,8 +3,7 @@ import  { useEffect, useState } from 'react';
 import { Link, useParams } from 'react-router-dom'; 
 import { axiosInstance } from '../utils/axiosInstance'; 
 import toast from 'react-hot-toast'; 
-import { LoaderPinwheel } from 'lucide-react'; 
-import Shimmer from '../components/Shimmer'; 
+import { LoaderPinwheel } from 'lucide-react';  
  import Videocarrd from '../components/Videocarrd';
 import Postcard from '../components/Postcard'; 
 import PlaylistCard from '../components/PlaylistCard'; 
@@ -33,6 +32,7 @@ const Channel = () => {
       const response = await axiosInstance.get(`/user/channel/${channelId}`);
       return response.data.data || {};
     },
+    staleTime: 1000 * 60 * 5,
     onError: (error) => {
       toast.error(error?.response?.data?.message || "Error fetching channel");
     }
@@ -47,6 +47,7 @@ const Channel = () => {
       queryClient.invalidateQueries(['channel', channelId]);
       toast.success(data?.message || "Subscribed successfully");
     },
+    staleTime: 1000 * 60 * 5,
     onError: (error) => {
       toast.error(error?.response?.data?.message || "Subscription error");
     }
@@ -62,15 +63,21 @@ const Channel = () => {
       const response = await axiosInstance.get(`/video/vids/${channelId}`);
       return response?.data || [];
     },
+    staleTime: 1000 * 60 * 5,
+    onError: (error) => {
+      toast.error(error?.response?.data?.message)
+    },
     enabled: tab === 'videos',
   });
 
-  const { data: posts = [], isLoading: postsLoading } = useQuery({
+  const { data: posts = [], isLoading: postsLoading, isError: postError } = useQuery({
     queryKey: ['channelPosts', channelId],
     queryFn: async () => {
       const response = await axiosInstance.get(`/post/channel/${channelId}`);
       return response?.data || [];
     },
+    staleTime: 1000 * 60 * 5,
+    // refetchInterval: 10000,
     enabled: tab === 'posts',
   });
 
@@ -80,6 +87,7 @@ const Channel = () => {
       const response = await axiosInstance.get(`/playlist/playlists/${channelId}`);
       return response?.data || [];
     },
+    staleTime: 1000 * 60 * 5,
     onSuccess: (data) => {
     toast.success(data?.message)
     },
@@ -191,11 +199,16 @@ const Channel = () => {
   };
  
 
-  if (isLoading || channelVideosLoading || playlistsLoading) return <Shimmer />;
-  if (isError || channelVideosError || playlistError) return <div>Error loading channel data</div>;
+
+
+  if (isError ) {
+    console.log("hii");
+  } 
 
   return (
-    <main className="p-5 bg-gradient-to-b from-blue-50 to-blue-100 min-h-screen">
+    <main className="p-5 bg-gradient-to-b from-blue-50 to-blue-100 min-h-screen  ">
+      {isLoading ? ( <p>Channel is loading</p> )
+      : (
       <div className="flex flex-col items-center">
         {channel.coverImage?.url && (
           <img src={channel.coverImage.url} alt="cover" className="w-full h-60 md:h-72 lg:h-80 object-cover rounded-lg mb-4 shadow-md" />
@@ -240,11 +253,12 @@ const Channel = () => {
     ) : (
       <div className="mt-4 p-3 bg-yellow-50 border-l-4 border-yellow-400 text-yellow-800 rounded-md shadow-md">
         <p className="font-semibold text-sm">Hi, {user?.userName}!</p>
-        <p className="text-xs">You&apos;re viewing your channel. Keep creating!</p>
+        <p className="text-xs">You're viewing your channel. Keep creating!</p>
       </div>
     )}
 
       </div>
+      ) }
 
       <div className="flex justify-center space-x-4 mt-4">
         <button onClick={() => setTab('videos')} className={`px-4 py-2 text-lg font-semibold ${tab === 'videos' && 'border-b-2 border-blue-500 text-blue-600'}`}>Videos</button>
@@ -268,7 +282,7 @@ const Channel = () => {
                 required
               />
               <button type="submit" className="px-4 py-2 bg-blue-500 text-white rounded-lg mt-2">
-                {createPostMutation.isLoading ? 'Creating...' : 'Create Post'}
+                {createPostMutation.isPending ? <LoaderPinwheel className="animate-spin text-white" /> : 'Create Post'}
               </button>
             </form>
           )}
@@ -309,7 +323,7 @@ const Channel = () => {
               type="submit"
               className="px-4 py-2 bg-blue-500 text-white rounded-lg hover:bg-blue-600 transition"
             >
-              {createPlaylistMutation.isLoading ? 'Creating...' : 'Create Playlist'}
+              {createPlaylistMutation.isPending ? <LoaderPinwheel className="animate-spin text-white" /> : 'Create Playlist'}
             </button>
           </form>
         </div>
@@ -319,17 +333,48 @@ const Channel = () => {
 
 
       <section className=" grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6 px-4 pt-6 bg-gray-100">
-        
-        {tab === 'videos' && channelVideos?.videos?.map((video) => (
+   
+      {tab === 'videos' && channelVideosLoading && <p className="text-center text-lg font-semibold text-gray-500">Loading videos...</p>}
+      {tab === 'videos' && channelVideosError &&  <p className="text-center text-lg font-semibold text-red-600">Oops! No videos found.</p>}
+ 
+ 
+      {tab === 'videos' && channelVideos?.length == 0 ? (
+         <div className="text-center py-5">
+         <p className="text-lg font-semibold text-blue-600">
+           {isOwner 
+             ? "You can start uploading videos for your channel." 
+             : "No videos found. Only the owner can upload videos."}
+         </p>
+         {isOwner && (
+           <Link 
+             to="/managevideos" 
+             className="inline-block mt-4 px-6 py-2 text-white bg-blue-600 rounded-lg hover:bg-blue-500 transition duration-200"
+           >
+             Upload Video
+           </Link>
+         )}
+       </div>
+      ): (
+         tab === 'videos'  && channelVideos?.videos?.map((video) => (
           <Link to={`/video/${video?._id}`} key={video?._id}>
             <Videocarrd video={video} />
           </Link>
-        ))}
-        {tab === 'posts' && postsLoading && <p>Loading posts...</p>}
-        {tab === 'posts' && posts.map((post) => (
+        )))}
+
+
+
+        {tab === 'posts' && postsLoading &&  <p className="text-center text-lg font-semibold text-gray-500">Loading posts...</p>}
+        {tab === 'posts' && postError && <p className="text-center text-lg font-semibold text-red-600">Oops! No posts found.</p> }
+
+
+
+       {tab === 'posts' && Array.isArray(posts) && posts?.length == 0 ? (
+        <p className='text-lg font-semibold text-blue-600'>{isOwner ? "You can start creating posts for your channel." : "No posts available. Only the owner can create posts."}</p>
+       ) : (
+          tab === 'posts' && Array.isArray(posts)  && posts?.map((post) => (
          <div
            key={post._id}
-           className="relative border border-gray-200  p-6 rounded-lg bg-white shadow-md transition-transform transform hover:scale-105 hover:shadow-lg"
+           className="relative border border-gray-200  p-6 rounded-lg bg-white  shadow-md transition-transform transform hover:scale-105 hover:shadow-lg"
          >
            {editingPostId === post._id ? (
              <>
@@ -375,14 +420,14 @@ const Channel = () => {
              </>
            )}
          </div>
-       ))}
+       )))}
   
 
 
-        {tab === 'playlists' && playlistsLoading && <p>Loading playlists...</p>}
+        {tab === 'playlists' && playlistsLoading && <p className="text-center text-lg font-semibold text-gray-500">Loading playlists...</p>}
         
         {tab === 'playlists' && playlists?.data?.length === 0 ? (
-          <p className=' text-blue-600 border-l-4 border-l-red-400 p-0.5 border-b-2 border-b-lime-500'>{isOwner ? "create playlist and add videos in Playlist" : "No playlist found only owner can create playlist"}</p>
+          <p className='text-lg font-semibold text-blue-600 border-l-4 border-l-red-400 p-4 border-b-2 border-b-lime-500 bg-blue-50 rounded-lg'>{isOwner ? "You currently have no playlists. Start by creating a playlist and adding videos to it!" : "No playlist found only owner can create playlist"}</p>
         ) : (
           
           tab === 'playlists' && playlists?.data?.map((playlist) => (

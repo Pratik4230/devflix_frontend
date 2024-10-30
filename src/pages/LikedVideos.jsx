@@ -17,6 +17,7 @@ const LikedVideos = () => {
         onSuccess: (data) => {
             toast.success(data.message || "liked videos");
         },
+        // refetchInterval: 10000, 
         onError: (error) => {
             toast.error(error.response.data?.message|| "failed to fetch liked videos")
         }
