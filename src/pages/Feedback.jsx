@@ -3,6 +3,7 @@ import React, { useState } from 'react'
 import { useSelector } from 'react-redux'
 import { axiosInstance } from '../utils/axiosInstance';
 import toast from 'react-hot-toast';
+import { LoaderPinwheel } from 'lucide-react';
 
 const Feedback = () => {
 
@@ -64,7 +65,7 @@ const Feedback = () => {
             onClick={handleSubmit}
             className="w-full px-4 py-2 bg-blue-600 hover:bg-blue-700 dark:bg-blue-500 dark:hover:bg-blue-600 text-white font-semibold rounded-lg transition-colors focus:outline-none focus:ring-2 focus:ring-blue-500 dark:focus:ring-blue-400"
         >
-            Submit
+         {feedbackMutation.isPending ? <LoaderPinwheel className= "animate-spin " size={25} /> : "Submit "}
         </button>
     </div>
 </main>
