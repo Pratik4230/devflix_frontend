@@ -55,7 +55,6 @@ const Feed = () => {
     return <div>Error loading feed.</div>;
   }
 
-  console.log("feed", feed);
   
   if (!feed || feed.pages[0]?.videos.length === 0) {
     return <p>No videos found.</p>;
