@@ -22,6 +22,7 @@ import Subscriptions from './pages/Subscriptions'
 import MyVideos from './pages/MyVideos'
 import LogIn from './pages/LogIn'
 import LikedVideos from './pages/LikedVideos'
+import Feedback from './pages/Feedback'
 
 
 
@@ -80,6 +81,7 @@ function App() {
           <Route path='/subscriptions' element= {authUser ? <Subscriptions/> : <Navigate to={'/'}/> } />
           <Route path='/managevideos' element= {authUser ? <MyVideos/> : <Navigate to={'/'}/> } />
           <Route path='/likedvideos' element= {authUser ? <LikedVideos/> : <Navigate to={'/'}/> } />
+          <Route path='/feedback' element= {authUser ? <Feedback/> : <Navigate to={'/'}/> } />
           
         </Route>
       </Routes>  
