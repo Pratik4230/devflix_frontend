@@ -52,8 +52,8 @@ function App() {
   if (isLoading) {
     return (
           <div className="flex flex-col items-center justify-center min-h-screen bg-blue-50">
-             <p className="text-lg font-semibold text-gray-700 mb-4 text-center">
-            🚀 Hang tight! We&apos;re waking up your feed. It might take just a moment, but don&apos;t worry—great content is on its way! 🌟 Be patient and get ready to explore!
+             <p className="text-lg font-semibold text-gray-700 mb-4 px-2 text-center">
+             "⏳The server is waking up! Just a moment; your awesome content is on its way, and we can't wait for you to see it!"
              </p>
     
   </div>

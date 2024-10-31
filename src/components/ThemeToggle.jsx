@@ -1,4 +1,5 @@
 
+import { SunMoon } from 'lucide-react';
 import React, { useState, useEffect } from 'react';
 
 const ThemeToggle = () => {
@@ -21,9 +22,12 @@ const ThemeToggle = () => {
   };
 
   return (
-    <button onClick={toggleTheme} className="p-2 m-2 rounded bg-blue-500 text-white">
-      {isDarkMode ? 'Light Mode' : 'Dark Mode'}
+    <>
+    <button onClick={toggleTheme} className= {`p-1.5 m-1 flex rounded-full ${isDarkMode ? `bg-blue-50 text-black` : `bg-black text-white`}  `}>
+    <SunMoon size={25} /> 
     </button>
+    
+    </>
   );
 };
 

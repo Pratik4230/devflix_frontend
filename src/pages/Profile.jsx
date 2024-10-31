@@ -154,7 +154,7 @@ const Profile = () => {
       )}
     </div>
 
-    <section className="flex flex-col md:flex-row justify-between items-center mb-5 bg-white dark:bg-black  rounded-lg shadow-md p-4">
+    <section className="flex flex-col md:flex-row justify-between items-center mb-5 bg-white dark:bg-black  rounded-lg md:mt-24 lg:mt-32 shadow-md p-4">
       <div className="flex items-center gap-4 mb-5 relative">
         <img
           src={profile.avatarImage?.url}

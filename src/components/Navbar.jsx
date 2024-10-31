@@ -43,14 +43,14 @@ const Navbar = ({ toggleDrawer }) => {
 
 
   return (
-    <nav className=" bg-base-100 px-7 flex items-center justify-between">
+    <nav className=" bg-base-100 dark:bg-black px-7 flex items-center justify-between">
 
-   <Menu onClick={toggleDrawer} size={32} />
+   <Menu onClick={toggleDrawer} className='dark:text-yellow-50' size={32} />
 
 
       <div className="flex items-center">
-             <MonitorPlay />
-        <Link to={'/'} className="btn btn-ghost text-xl flex items-center">devflix</Link>
+             <MonitorPlay className='dark:text-red-100' />
+        <Link to={'/'} className="btn btn-ghost dark:text-orange-50 text-xl flex items-center">devflix</Link>
       </div>
 
 <section className='flex gap-4 items-center'>

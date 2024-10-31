@@ -62,20 +62,20 @@ const Signup = () => {
   
 
   return (
-    <div className="flex justify-center items-center h-screen bg-base-200 dark:bg-black">
-      <div className="card w-96 bg-base-100 dark:bg-gray-950 shadow-xl">
+    <div className="flex justify-center items-center h-screen bg-blue-100 dark:bg-black">
+      <div className="card w-96 bg-orange-50 dark:bg-gray-950 shadow-xl">
         <div className="card-body">
-          <h2 className="card-title dark:text-red-50 text-center">Sign Up</h2>
+          <h2 className="text-3xl text-blue-500 font-semibold mb-6 text-center">Sign Up</h2>
           <form onSubmit={handleSubmit(onSubmit)}>
            
             <div className="form-control">
               <label className="label">
-                <span className="label-text dark:text-orange-50">Username</span>
+                <span className="  text-gray-900 dark:text-green-50  font-semibold ">Username</span>
               </label>
               <input
                 type="text"
                 placeholder="Enter your username"
-                className="input input-bordered"
+                className="input input-bordered text-yellow-50"
                 {...register("userName")}
               />
               {errors.userName && <p className="text-error">{errors.userName.message}</p>}
@@ -84,12 +84,12 @@ const Signup = () => {
         
             <div className="form-control">
               <label className="label">
-                <span className="label-text dark:text-white">Channel Name</span>
+                <span className="block text-gray-900 dark:text-green-50  font-semibold">Channel Name</span>
               </label>
               <input
                 type="text"
                 placeholder="Enter your channel name"
-                className="input input-bordered"
+                className="input input-bordered text-yellow-50"
                 {...register("channelName")}
               />
               {errors.channelName && <p className="text-error">{errors.channelName.message}</p>}
@@ -98,12 +98,12 @@ const Signup = () => {
           
             <div className="form-control">
               <label className="label">
-                <span className="label-text dark:text-green-50">Email</span>
+                <span className="block text-gray-900 dark:text-green-50  font-semibold">Email</span>
               </label>
               <input
                 type="email"
                 placeholder="Enter your email"
-                className="input input-bordered"
+                className="input input-bordered text-yellow-50"
                 {...register("emailId")}
               />
               {errors.emailId && <p className="text-error">{errors.emailId.message}</p>}
@@ -112,12 +112,12 @@ const Signup = () => {
           
             <div className="form-control">
               <label className="label">
-                <span className="label-text dark:text-blue-50">Password</span>
+                <span className="block text-gray-900 dark:text-green-50  font-semibold">Password</span>
               </label>
               <input
                 type="password"
                 placeholder="Enter your password"
-                className="input input-bordered"
+                className="input input-bordered text-yellow-50"
                 {...register("password")}
               />
               {errors.password && <p className="text-error">{errors.password.message}</p>}
@@ -129,7 +129,7 @@ const Signup = () => {
                 {mutation.isPending ?   <Loader className="animate-spin text-white"  /> : "Signup"}   
               </button>
             </div>
-            <p className="mt-6 text-lg flex text-sky-50 justify-center">Have an account?  <Link to={'/login'}> <span className="text-blue-600"> &nbsp;  Log in </span> </Link>  </p>
+            <p className="mt-6 text-lg flex text-slate-900 dark:text-sky-50 justify-center">Have an account?  <Link to={'/login'}> <span className="text-blue-600"> &nbsp;  Log in </span> </Link>  </p>
           </form>
          
         </div>
