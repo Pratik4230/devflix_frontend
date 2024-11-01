@@ -16,7 +16,7 @@ import React from 'react'
   <section className="relative w-full h-48 md:h-40 lg:h-44 bg-black">
     <img src={thumbnail.url} alt={title} className="w-full h-full object-cover" />
     <p className="absolute bottom-2 right-2 bg-black text-white text-xs px-2 py-1 rounded-lg shadow-md">
-      {duration.toFixed(2)} mins
+      {duration.toFixed(2)}  
     </p>
   </section>
 
