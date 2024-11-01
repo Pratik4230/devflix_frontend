@@ -7,6 +7,7 @@ import { axiosInstance } from "../utils/axiosInstance";
 import toast from "react-hot-toast";
 import {  Link, useNavigate } from "react-router-dom";
 import { Loader } from "lucide-react";
+import { useState } from "react";
 
 
 const LoginSchema = z.object({
@@ -31,13 +32,15 @@ const LogIn = () => {
 
   const navigate = useNavigate();
   const queryClient = useQueryClient();
- 
+
+ const [emailId ,setEmailId] = useState('');
+ const [password ,setPassword] = useState('');
   
   
 
 const mutation = useMutation({
-  mutationFn: async (data) => {
-    const response = await axiosInstance.post("/user/login", data);
+  mutationFn: async (data) => {  
+    const response = await axiosInstance.post("/user/login", data);  
     return response.data
   },
 
@@ -62,6 +65,15 @@ const mutation = useMutation({
   const onSubmit = (data) => {
     mutation.mutate(data)
   };
+
+  const handleGuestLogin = () => {
+    const guestCredentials = {
+      emailId: "random@gmail.com",
+      password: "Random@123"
+    };     
+      mutation.mutate(guestCredentials);
+     
+  }
 
   return (
     <div className="flex  justify-center items-center h-screen bg-blue-100 dark:bg-black min-w-screen">
@@ -114,6 +126,10 @@ const mutation = useMutation({
        
         <button type="submit" className="btn btn-primary text-white text-lg w-full mt-4" disabled={mutation.isPending} >
        {mutation.isPending ? <Loader className="animate-spin text-white"/>  : "LogIn"}
+        </button>
+
+        <button onClick={handleGuestLogin} className="btn  text-white text-lg w-full mt-4" disabled={mutation.isPending} >
+       {mutation.isPending ? <Loader className="animate-spin text-white"/>  : " LogIn as Guest !!!"}
         </button>
 
         <p className="mt-6 text-lg text-slate-900 dark:text-orange-50 flex justify-center">Don't have an account?   <Link to={'/signup'}> <span className="text-blue-600 "> &nbsp; Sign Up now</span> </Link>  </p>

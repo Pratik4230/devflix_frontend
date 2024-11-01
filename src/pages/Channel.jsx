@@ -145,7 +145,7 @@ const Channel = () => {
 
   const updatePostMutation = useMutation({
     mutationFn: async ({ postId, content }) => {
-      return await axiosInstance.patch(`/post/update/${postId}`, { content });
+      return await axiosInstance.put(`/post/update/${postId}`, { content });
     },
     onSuccess: () => {
       queryClient.invalidateQueries(['channelPosts', channelId]);
@@ -210,23 +210,23 @@ const Channel = () => {
       {isLoading ? ( <p>Channel is loading</p> )
       : (
       <div className="flex flex-col items-center">
-        {channel.coverImage?.url && (
-          <img src={channel.coverImage.url} alt="cover" className="w-full h-60 md:h-72 lg:h-80 object-cover rounded-lg mb-4 shadow-md" />
+        {channel?.coverImage?.url && (
+          <img src={channel?.coverImage.url} alt="cover" className="w-full h-60 md:h-72 lg:h-80 object-cover rounded-lg mb-4 shadow-md" />
         )}
-        <img src={channel.avatarImage?.url} alt="avatar" className="w-20 h-20 rounded-full object-cover border-4 border-white shadow-lg" />
-        <h2 className="text-3xl font-bold mt-4 text-gray-800">{channel.channelName || 'Channel Name Unavailable'}</h2>
-        <p className="text-gray-500">{channel.userName}</p>
+        <img src={channel?.avatarImage?.url} alt="avatar" className="w-20 h-20 rounded-full object-cover border-4 border-white shadow-lg" />
+        <h2 className="text-3xl font-bold mt-4 text-gray-800">{channel?.channelName || 'Channel Name Unavailable'}</h2>
+        <p className="text-gray-500">{channel?.userName}</p>
         <div className="flex gap-4 mt-2 text-gray-600">
-          <p>Subscribers: {channel.subscribersCount}</p>
-          <p>Subscribed To: {channel.SubscribedToCount}</p>
+          <p>Subscribers: {channel?.subscribersCount}</p>
+          <p>Subscribed To: {channel?.SubscribedToCount}</p>
         </div>
 
-        {user?.channelName !== channel.channelName ? (
+        {user?.channelName !== channel?.channelName ? (
   <>
     <button
-      onClick={() => toggleSubscribe(channel._id)}
+      onClick={() => toggleSubscribe(channel?._id)}
       className={`mt-3 px-4 py-2 rounded-lg text-white font-semibold transition-colors duration-300 ${
-        channel.isSubscribed ? 'bg-red-500 hover:bg-red-600' : 'bg-blue-500 hover:bg-blue-600'
+        channel?.isSubscribed ? 'bg-red-500 hover:bg-red-600' : 'bg-blue-500 hover:bg-blue-600'
       } shadow-md flex items-center justify-center`}
     >
       {subscriptionMutation?.isPending ? (

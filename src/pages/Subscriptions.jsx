@@ -13,9 +13,9 @@ const Subscriptions = () => {
        const response = await axiosInstance.get(`/subscription/channels`);
        return response?.data || [];
      },
+     refetchInterval: 35000,
      staleTime: 1000 * 60 * 5,
-     refetchInterval: 10000,
-
+     
      onError: (error) => {
       toast.error(error?.response?.data?.message || "Error fetching subscribed channels ");
      },
@@ -27,7 +27,7 @@ const Subscriptions = () => {
       const response = await axiosInstance.get("/subscription/subsVids");
       return response?.data || [];
     },
-    refetchInterval: 10000,
+    refetchInterval: 35000,
     staleTime: 1000 * 60 * 5,
     
     onError: (error) => {
