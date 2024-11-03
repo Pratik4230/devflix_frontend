@@ -7,13 +7,13 @@ import toast from 'react-hot-toast';
 
 const Subscriptions = () => {
 
-  const {data: subscribedTo = [], isError:subToError, isLoading: subToLoading } = useQuery({
+  const {data: subscribedTo = [], isLoading: subToLoading, isError:subToError } = useQuery({
      queryKey: ['subscribedTo'],
      queryFn: async () => {
        const response = await axiosInstance.get(`/subscription/channels`);
        return response?.data || [];
      },
-     refetchInterval: 35000,
+    //  refetchInterval: 35000,
      staleTime: 1000 * 60 * 5,
      
      onError: (error) => {
@@ -27,7 +27,7 @@ const Subscriptions = () => {
       const response = await axiosInstance.get("/subscription/subsVids");
       return response?.data || [];
     },
-    refetchInterval: 35000,
+    // refetchInterval: 35000,
     staleTime: 1000 * 60 * 5,
     
     onError: (error) => {
@@ -40,6 +40,8 @@ const Subscriptions = () => {
     return <Shimmer />
   }
 
+  
+
   if (subToError) {
     return (
       <div className="text-center py-10">
@@ -51,8 +53,8 @@ const Subscriptions = () => {
   if (subsVideosError) {
     return (
       <div className="text-center py-10">
-        <p className="text-lg font-semibold text-blue-500">No videos from your subscriptions available yet!</p>
-        <p className="text-gray-500">Once you subscribe to channels, new videos will appear here.</p>
+        <p className="text-lg font-semibold text-red-500">No videos from your subscriptions available yet!</p>
+        
       </div>
     );
   }

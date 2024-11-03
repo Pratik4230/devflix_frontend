@@ -2,10 +2,8 @@ import axios from 'axios';
 
 
 export const axiosInstance = axios.create({
-    baseURL: 'https://devflix-awrx.onrender.com',
+    baseURL: import.meta.env.VITE_BACKEND_URL,
     withCredentials: true
   });
-
-  //"https://devflix-awrx.onrender.com"
 
   //http://localhost:8080
