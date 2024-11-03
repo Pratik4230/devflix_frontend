@@ -20,7 +20,7 @@ const Subscriptions = () => {
       toast.error(error?.response?.data?.message || "Error fetching subscribed channels ");
      },
   });
-
+//todo:
   const {data: subsVideos = [], isLoading: subsVideosLoading, isError: subsVideosError} = useQuery({
     queryKey: ["subsVids"],
     queryFn: async () => {
@@ -43,8 +43,7 @@ const Subscriptions = () => {
   if (subToError) {
     return (
       <div className="text-center py-10">
-        <p className="text-lg font-semibold text-blue-500">You haven't subscribed to any channels yet!</p>
-        <p className="text-gray-500">Explore and subscribe to channels to see their latest updates here.</p>
+        <p className="text-lg font-semibold text-red-500">Error something went Wrong! Please try Again later</p>     
       </div>
     );
   }

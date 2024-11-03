@@ -8,7 +8,7 @@ import { Link } from 'react-router-dom'
 
 const LikedVideos = () => {
 
-    const {data: LikedVideo, isLoading, isError} = useQuery({
+    const {data: LikedVideo = [], isLoading, isError} = useQuery({
         queryKey: ["LikedVideos"],
         queryFn: async () => {
             const response = await axiosInstance.get('/like/videos');
@@ -17,13 +17,14 @@ const LikedVideos = () => {
         onSuccess: (data) => {
             toast.success(data.message || "liked videos");
         },
-        // refetchInterval: 10000, 
+        refetchInterval: 10000, 
         onError: (error) => {
             toast.error(error.response.data?.message|| "failed to fetch liked videos")
         }
     });
 
     if (isLoading) return <Shimmer/>
+
     
 
   return (

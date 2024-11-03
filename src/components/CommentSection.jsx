@@ -7,15 +7,15 @@ import Comment from './Comment';
 
 const CommentSection = ({ videoId }) => {
  
-  
+  const [sortBy, setSortBy ] = useState('createdAt')
   const queryClient = useQueryClient();
   const [newComment, setNewComment] = useState('');
  
 
   const { data: comments, isLoading, isError } = useQuery({
-    queryKey: ['comments', videoId],
+    queryKey: ['comments', videoId, sortBy],
     queryFn: async () => {
-      const response = await axiosInstance.get(`/comment/video/${videoId}`);
+      const response = await axiosInstance.get(`/comment/video/${videoId}?sortType=${sortBy}`);
       return response.data;
     },
     refetchInterval: 10000,
@@ -31,7 +31,7 @@ const CommentSection = ({ videoId }) => {
       return response.data;
     },
     onSuccess: () => {
-      queryClient.invalidateQueries(['comments', videoId]);
+      queryClient.invalidateQueries(['comments', videoId, sortBy]);
       toast.success('Comment added successfully');
       setNewComment('');
     },
@@ -56,6 +56,11 @@ const CommentSection = ({ videoId }) => {
   if (isError) return <div>Error loading comments</div>;
 
 
+  const handleSort = (e) => {
+    setSortBy(e.target.value);
+ 
+  }
+
   return (
     <section className="w-screen mt-5 flex flex-col items-center">
       <h2 className="text-2xl text-yellow-50 font-semibold">Comments</h2>
@@ -76,6 +81,16 @@ const CommentSection = ({ videoId }) => {
       </div>
 
       <div className="mt-5 bg-slate-950 text-slate-300 rounded-xl p-2 w-10/12 lg:w-1/2">
+        <div>
+          <select onChange={handleSort} value={sortBy} className="p-2 rounded-md bg-slate-800 text-slate-200">
+            <option value="createdAt">Newest First</option>
+            <option value="likeCount">Most Popular</option>
+          </select>
+        </div>
+
+        
+
+
         {!comments?.[0]?.key ? (
           <p>No comments Found</p>
         ) : (

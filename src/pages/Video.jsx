@@ -152,7 +152,7 @@ const Video = () => {
                   <option value="">Choose Playlist</option>
                   { playlists?.data?.length > 0 ? (
                      playlists?.data?.map((playlist) => (
-                    <option key={playlist._id} value={playlist._id}>{playlist.name}</option>
+                    <option key={playlist?._id} value={playlist?._id}>{playlist.name}</option>
                   ))
                 ): (
                      <option disabled>No playlists available</option>

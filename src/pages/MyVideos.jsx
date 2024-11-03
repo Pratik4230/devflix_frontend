@@ -36,11 +36,12 @@ const MyVideos = () => {
     });
 
   const videoUpload = useMutation({
-    mutationFn: async (formData) => {
-      const response = await axiosInstance.post("/video/upload", formData);
+    mutationFn: async (formData) => {      
+      const response = await axiosInstance.post("/video/upload", formData);    
       return response.data;
     },
     onSuccess: (data) => {
+      queryClient.invalidateQueries(['myVideos', channelId])
       toast.success(data?.message || "video uploaded successfully");
     },
     onError: (error) => {
@@ -99,10 +100,12 @@ const togglePublish = useMutation({
   const handleUpload = (e) => {
     e.preventDefault();
 
+
     if (videoFile && videoFile.size > 100 * 1024 * 1024) {
       toast.error("Video file is too large. Maximum size is 100 MB.");
       return;
     }
+
 
     const formData = new FormData();
     formData.append('title', title);
@@ -111,6 +114,7 @@ const togglePublish = useMutation({
     formData.append('thumbnail', thumbnailFile);
 
     videoUpload.mutate(formData);
+    
   };
 
   const handleUpdate = (e) => {

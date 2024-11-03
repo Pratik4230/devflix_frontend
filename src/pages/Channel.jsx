@@ -77,7 +77,6 @@ const Channel = () => {
       return response?.data || [];
     },
     staleTime: 1000 * 60 * 5,
-    // refetchInterval: 10000,
     enabled: tab === 'posts',
   });
 
@@ -201,9 +200,14 @@ const Channel = () => {
 
 
 
-  if (isError ) {
-    console.log("hii");
+  if (isError || postError || playlistError ) {
+     return (
+      <div className="text-center py-10">
+      <p className="text-lg font-semibold text-red-500">Error something went Wrong! Please try Again later</p>     
+    </div>
+     )
   } 
+
 
   return (
     <main className="p-5 bg-gradient-to-b from-blue-50 to-blue-100 min-h-screen  ">
@@ -335,9 +339,7 @@ const Channel = () => {
       <section className=" grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6 px-4 pt-6 bg-gray-100">
    
       {tab === 'videos' && channelVideosLoading && <p className="text-center text-lg font-semibold text-gray-500">Loading videos...</p>}
-      {tab === 'videos' && channelVideosError &&  <p className="text-center text-lg font-semibold text-red-600">Oops! No videos found.</p>}
- 
- 
+      
       {tab === 'videos' && channelVideos?.length == 0 ? (
          <div className="text-center py-5">
          <p className="text-lg font-semibold text-blue-600">
@@ -364,12 +366,9 @@ const Channel = () => {
 
 
         {tab === 'posts' && postsLoading &&  <p className="text-center text-lg font-semibold text-gray-500">Loading posts...</p>}
-        {tab === 'posts' && postError && <p className="text-center text-lg font-semibold text-red-600">Oops! No posts found.</p> }
-
-
-
+        
        {tab === 'posts' && Array.isArray(posts) && posts?.length == 0 ? (
-        <p className='text-lg font-semibold text-blue-600'>{isOwner ? "You can start creating posts for your channel." : "No posts available. Only the owner can create posts."}</p>
+        <p className='text-lg flex justify-center font-semibold text-blue-600'>{isOwner ? "You can start creating posts for your channel." : "No posts available. Only the owner can create posts."}</p>
        ) : (
           tab === 'posts' && Array.isArray(posts)  && posts?.map((post) => (
          <div
